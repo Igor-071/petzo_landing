@@ -5,6 +5,7 @@ import { SplitText } from 'gsap/SplitText';
 import Lenis from 'lenis';
 import { createHeroScene } from './scenes/hero.js';
 import { createDotField } from './scenes/dotfield.js';
+import { init as i18nInit, setLang, getLang, t } from './i18n.js';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -89,6 +90,39 @@ $$('.integrations, .footer').forEach((el) => {
     onToggle: (self) => nav.classList.toggle('is-dark', self.isActive),
   });
 });
+
+/* ---------------- Language switcher ---------------- */
+const langWrap = $('[data-lang]');
+const langBtn = $('.lang__btn');
+const langDrop = $('.lang__drop');
+function closeLangDrop() {
+  langWrap.classList.remove('is-open');
+  langBtn.setAttribute('aria-expanded', 'false');
+  langDrop.setAttribute('aria-hidden', 'true');
+}
+langBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  const open = langWrap.classList.toggle('is-open');
+  langBtn.setAttribute('aria-expanded', String(open));
+  langDrop.setAttribute('aria-hidden', String(!open));
+});
+$$('[data-lang-opt]').forEach((opt) => {
+  opt.addEventListener('click', () => {
+    const lang = opt.dataset.langOpt;
+    setLang(lang);
+    $$('[data-lang-opt]').forEach((o) => o.classList.toggle('is-active', o.dataset.langOpt === lang));
+    $$('[data-lang-flag]').forEach((f) => { f.style.display = f.dataset.langFlag === lang ? '' : 'none'; });
+    closeLangDrop();
+  });
+});
+document.addEventListener('click', (e) => {
+  if (!langWrap.contains(e.target)) closeLangDrop();
+});
+// Sync flag display on boot (if English was stored)
+if (getLang() === 'en') {
+  $$('[data-lang-flag]').forEach((f) => { f.style.display = f.dataset.langFlag === 'en' ? '' : 'none'; });
+  $$('[data-lang-opt]').forEach((o) => o.classList.toggle('is-active', o.dataset.langOpt === 'en'));
+}
 
 /* ---------------- Video modal ---------------- */
 const modal = $('[data-modal]');
@@ -193,13 +227,13 @@ form.addEventListener('submit', (e) => {
   });
   status.classList.toggle('is-error', !ok);
   if (!ok) {
-    status.textContent = 'Please fill in the required fields.';
+    status.textContent = t('form.error', 'Vänligen fyll i de obligatoriska fälten.');
     return;
   }
   const d = new FormData(form);
   const body = `${d.get('message')}\n\n—\nName: ${d.get('name')}\nEmail: ${d.get('email')}\nPhone: ${d.get('phone') || '-'}`;
-  window.location.href = `mailto:petzoapp@d4igroup.se?subject=${encodeURIComponent('Question about Petzo')}&body=${encodeURIComponent(body)}`;
-  status.textContent = 'Opening your email app…';
+  window.location.href = `mailto:petzoapp@d4igroup.se?subject=${encodeURIComponent(t('form.subject', 'Fråga om Petzo'))}&body=${encodeURIComponent(body)}`;
+  status.textContent = t('form.sending', 'Öppnar din e-postapp…');
 });
 
 /* ---------------- Year ---------------- */
@@ -448,7 +482,7 @@ function initScrollAnimations() {
   $$('[data-count]').forEach((el) => {
     const to = Number(el.dataset.count);
     const o = { v: 0 };
-    gsap.to(o, { v: to, duration: 1.8, ease: 'power3.out', delay: 0.3, scrollTrigger: { trigger: sync, start: 'top 75%', once: true }, onUpdate: () => (el.textContent = Math.round(o.v).toLocaleString('en-US')) });
+    gsap.to(o, { v: to, duration: 1.8, ease: 'power3.out', delay: 0.3, scrollTrigger: { trigger: sync, start: 'top 75%', once: true }, onUpdate: () => (el.textContent = Math.round(o.v).toLocaleString(getLang() === 'sv' ? 'sv-SE' : 'en-US')) });
   });
   const loopTl = gsap.timeline({ repeat: -1, repeatDelay: 1.6, paused: true });
   loopTl
@@ -480,7 +514,34 @@ function initScrollAnimations() {
   ScrollTrigger.refresh();
 }
 
-runLoader();
+/* ---------------- Language-change handler (SplitText + marquee) ---------------- */
+window.addEventListener('langchange', () => {
+  // Re-copy marquee innerHTML from original group to clones
+  const origGroup = $('.marquee__group[data-i18n]', track);
+  if (origGroup) {
+    $$('.marquee__group:not([data-i18n])', track).forEach((clone) => {
+      clone.innerHTML = origGroup.innerHTML;
+    });
+  }
+
+  // SplitText: revert all existing splits and re-split
+  // The autoSplit:true + onSplit pattern handles most of it via GSAP's built-in reflow,
+  // but the statement word split needs manual refresh
+  const st = $('[data-words]');
+  if (st && !reduced) {
+    // Kill old SplitText on the statement, re-create
+    SplitText.create(st, { type: 'words', wordsClass: 'w' });
+    // Make all words visible since the scroll animation already triggered
+    $$('.w', st).forEach((w) => { w.style.opacity = '1'; });
+  }
+
+  ScrollTrigger.refresh();
+});
+
+/* ---------------- Boot ---------------- */
+i18nInit().then(() => {
+  runLoader();
+});
 window.addEventListener('load', () => {
   hero?.layout();
   ScrollTrigger.refresh();

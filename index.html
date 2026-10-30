@@ -1,17 +1,18 @@
 <!doctype html>
-<html lang="en">
+<html lang="sv" translate="no">
   <head>
     <meta charset="UTF-8" />
+    <meta name="google" content="notranslate" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Petzo — Pet care, connected</title>
+    <title>Petzo — Djuromsorg, uppkopplad</title>
     <meta
       name="description"
-      content="Petzo puts your pet's whole health life in one app — vet appointments, vaccinations, therapies, a digital passport and SOS alerts. Connected to clinics through Petzo VMS."
+      content="Petzo samlar hela ditt djurs hälsoliv i en app — veterinärbesök, vaccinationer, behandlingar, ett digitalt pass och SOS-larm. Uppkopplad mot kliniker via Petzo VMS."
     />
     <meta name="theme-color" content="#623BB2" />
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <meta property="og:title" content="Petzo — Pet care, connected" />
-    <meta property="og:description" content="Everything your pet's health needs, in one place." />
+    <meta property="og:title" content="Petzo — Djuromsorg, uppkopplad" />
+    <meta property="og:description" content="Allt ditt djur behöver för sin hälsa, på ett ställe." />
     <meta property="og:image" content="/assets/petzo-app.png" />
     <style>
       .loader{position:fixed;inset:0;z-index:100;background:#623bb2;display:grid;place-items:center;color:#fff}
@@ -75,23 +76,45 @@
           <span class="logo-mark" role="img" aria-label="petzo"></span>
         </a>
         <nav class="nav__links" aria-label="Primary">
-          <a href="#features">Features</a>
-          <a href="#how">How it works</a>
-          <a href="#integrations">Integrations</a>
+          <a href="#features" data-i18n="nav.features">Funktioner</a>
+          <a href="#how" data-i18n="nav.how">Så fungerar det</a>
+          <a href="#integrations" data-i18n="nav.integrations">Integrationer</a>
           <a href="#faq">FAQ</a>
         </nav>
         <div class="nav__actions">
-          <a href="#contact" class="nav__ghost">Contact</a>
-          <a href="#download" class="btn btn--primary btn--sm" data-magnetic><span>Get the app</span></a>
-          <button class="nav__burger" aria-label="Open menu" aria-expanded="false" data-burger><span></span><span></span></button>
+          <a href="#contact" class="nav__ghost" data-i18n="nav.contact">Kontakt</a>
+          <div class="lang" data-lang>
+            <button class="lang__btn" aria-label="Byt språk" aria-expanded="false">
+              <svg class="lang__flag" viewBox="0 0 64 64" width="22" height="22" data-lang-flag="sv">
+                <clipPath id="lf-sv"><circle cx="32" cy="32" r="32" /></clipPath>
+                <g clip-path="url(#lf-sv)"><rect width="64" height="64" fill="#006AA7"/><rect x="26" width="12" height="64" fill="#FECC00"/><rect y="26" width="64" height="12" fill="#FECC00"/></g>
+              </svg>
+              <svg class="lang__flag" viewBox="0 0 64 64" width="22" height="22" data-lang-flag="en" style="display:none">
+                <clipPath id="lf-en"><circle cx="32" cy="32" r="32" /></clipPath>
+                <g clip-path="url(#lf-en)"><rect width="64" height="64" fill="#012169"/><path d="M0 0L64 64M64 0L0 64" stroke="#fff" stroke-width="9"/><path d="M0 0L64 64M64 0L0 64" stroke="#C8102E" stroke-width="6"/><rect x="26" width="12" height="64" fill="#fff"/><rect y="26" width="64" height="12" fill="#fff"/><rect x="28" width="8" height="64" fill="#C8102E"/><rect y="28" width="64" height="8" fill="#C8102E"/></g>
+              </svg>
+            </button>
+            <div class="lang__drop" aria-hidden="true">
+              <button class="lang__opt is-active" data-lang-opt="sv">
+                <svg viewBox="0 0 64 64" width="20" height="20"><clipPath id="lo-sv"><circle cx="32" cy="32" r="32"/></clipPath><g clip-path="url(#lo-sv)"><rect width="64" height="64" fill="#006AA7"/><rect x="26" width="12" height="64" fill="#FECC00"/><rect y="26" width="64" height="12" fill="#FECC00"/></g></svg>
+                Svenska
+              </button>
+              <button class="lang__opt" data-lang-opt="en">
+                <svg viewBox="0 0 64 64" width="20" height="20"><clipPath id="lo-en"><circle cx="32" cy="32" r="32"/></clipPath><g clip-path="url(#lo-en)"><rect width="64" height="64" fill="#012169"/><path d="M0 0L64 64M64 0L0 64" stroke="#fff" stroke-width="9"/><path d="M0 0L64 64M64 0L0 64" stroke="#C8102E" stroke-width="6"/><rect x="26" width="12" height="64" fill="#fff"/><rect y="26" width="64" height="12" fill="#fff"/><rect x="28" width="8" height="64" fill="#C8102E"/><rect y="28" width="64" height="8" fill="#C8102E"/></g></svg>
+                English
+              </button>
+            </div>
+          </div>
+          <a href="#download" class="btn btn--primary btn--sm" data-magnetic><span data-i18n="nav.cta">Hämta appen</span></a>
+          <button class="nav__burger" aria-label="Öppna meny" aria-expanded="false" data-burger><span></span><span></span></button>
         </div>
       </div>
       <div class="nav__mobile" data-mobile-menu>
-        <a href="#features">Features</a>
-        <a href="#how">How it works</a>
-        <a href="#integrations">Integrations</a>
+        <a href="#features" data-i18n="nav.m.features">Funktioner</a>
+        <a href="#how" data-i18n="nav.m.how">Så fungerar det</a>
+        <a href="#integrations" data-i18n="nav.m.integrations">Integrationer</a>
         <a href="#faq">FAQ</a>
-        <a href="#contact">Contact</a>
+        <a href="#contact" data-i18n="nav.m.contact">Kontakt</a>
       </div>
     </header>
 
@@ -102,33 +125,33 @@
         <div class="hero__grain" aria-hidden="true"></div>
         <div class="container hero__grid">
           <div class="hero__copy">
-            <p class="eyebrow hero__eyebrow" data-hero-fade>
-              <span class="eyebrow__dot"></span> Pet care, connected to your vet
+            <p class="eyebrow hero__eyebrow" data-hero-fade data-i18n="hero.eyebrow">
+              <span class="eyebrow__dot"></span> Djuromsorg, kopplad till din veterinär
             </p>
-            <h1 class="hero__title" data-split>
-              Everything your pet’s <em>health</em> needs. In one place.
+            <h1 class="hero__title" data-split data-i18n="hero.title">
+              Allt ditt djurs <em>hälsa</em> behöver. På ett ställe.
             </h1>
-            <p class="hero__lede" data-hero-fade>
-              Find a vet and book in seconds, keep every vaccine and therapy on record, and rally your neighbourhood if your pet ever goes missing.
+            <p class="hero__lede" data-hero-fade data-i18n="hero.lede">
+              Hitta en veterinär och boka på sekunder, håll koll på varje vaccin och behandling, och mobilisera grannskapet om ditt djur försvinner.
             </p>
             <div class="hero__ctas" data-hero-fade>
               <a class="store" href="https://apps.apple.com/hr/app/petzo-ultimate-pet-care/id6738798585" target="_blank" rel="noopener" data-magnetic>
                 <svg><use href="#i-apple" /></svg>
-                <span><small>Download on the</small>App Store</span>
+                <span data-i18n="hero.appstore"><small>Ladda ner på</small>App Store</span>
               </a>
               <a class="store" href="https://play.google.com/store/apps/details?id=com.petzo.venturion" target="_blank" rel="noopener" data-magnetic>
                 <svg><use href="#i-play-store" /></svg>
-                <span><small>Get it on</small>Google Play</span>
+                <span data-i18n="hero.gplay"><small>Hämta på</small>Google Play</span>
               </a>
               <button class="play-btn" data-video="https://petzoapp.com/wp-content/uploads/2024/12/Petzo_Promo-Video_Final.mp4">
                 <span class="play-btn__icon"><svg><use href="#i-play" /></svg></span>
-                Watch the film
+                <span data-i18n="hero.film">Se filmen</span>
               </button>
             </div>
             <ul class="hero__proof" data-hero-fade>
-              <li><svg><use href="#i-check" /></svg> Free to start</li>
-              <li><svg><use href="#i-check" /></svg> iOS &amp; Android</li>
-              <li><svg><use href="#i-check" /></svg> Every pet, one account</li>
+              <li data-i18n="hero.proof1"><svg><use href="#i-check" /></svg> Gratis att börja</li>
+              <li data-i18n="hero.proof2"><svg><use href="#i-check" /></svg> iOS &amp; Android</li>
+              <li data-i18n="hero.proof3"><svg><use href="#i-check" /></svg> Alla djur, ett konto</li>
             </ul>
           </div>
 
@@ -139,30 +162,30 @@
                 <div class="screen screen--profile">
                   <div class="sb"><span>9:41</span><span class="sb__icons"><i></i><i></i><i></i></span></div>
                   <div class="app-top">
-                    <span class="app-top__title">Pet profile</span>
+                    <span class="app-top__title" data-i18n="phone.profile.title">Djurprofil</span>
                     <span class="chip chip--orange">Luna ▾</span>
                   </div>
-                  <div class="tabs"><span class="is-on">About</span><span>Health</span><span>Insurance</span></div>
+                  <div class="tabs"><span class="is-on" data-i18n="phone.tab.about">Om</span><span data-i18n="phone.tab.health">Hälsa</span><span data-i18n="phone.tab.insurance">Försäkring</span></div>
                   <div class="pet-card">
                     <div class="avatar avatar--lg avatar--dog"><svg><use href="#i-paw" /></svg></div>
                     <div>
                       <strong>Luna</strong>
-                      <small>Dog · Golden Retriever</small>
-                      <span class="pill-btn"><svg><use href="#i-passport" /></svg> Passport</span>
+                      <small data-i18n="phone.profile.breed">Hund · Golden Retriever</small>
+                      <span class="pill-btn" data-i18n="phone.profile.passport"><svg><use href="#i-passport" /></svg> Pass</span>
                     </div>
                   </div>
-                  <div class="kv"><span>Sex</span><b>Female</b></div>
-                  <div class="kv"><span>Size</span><b>Large</b></div>
-                  <div class="kv"><span>Weight</span><b>27 kg</b></div>
-                  <div class="kv"><span>Microchip</span><b>••• 4821</b></div>
-                  <p class="screen__label">Coming up</p>
+                  <div class="kv"><span data-i18n="phone.profile.sex">Kön</span><b data-i18n="phone.profile.sexval">Hona</b></div>
+                  <div class="kv"><span data-i18n="phone.profile.size">Storlek</span><b data-i18n="phone.profile.sizeval">Stor</b></div>
+                  <div class="kv"><span data-i18n="phone.profile.weight">Vikt</span><b>27 kg</b></div>
+                  <div class="kv"><span data-i18n="phone.profile.chip">Mikrochip</span><b>••• 4821</b></div>
+                  <p class="screen__label" data-i18n="phone.profile.upcoming">Kommande</p>
                   <div class="list-row">
                     <span class="list-row__ic list-row__ic--purple"><svg><use href="#i-syringe" /></svg></span>
-                    <span><b>Rabies booster</b><small>Thu, 14 Nov · 10:30</small></span>
+                    <span data-i18n="phone.profile.rabies"><b>Rabiesförstärkning</b><small>Tor, 14 nov · 10:30</small></span>
                   </div>
                   <div class="list-row">
                     <span class="list-row__ic list-row__ic--orange"><svg><use href="#i-pill" /></svg></span>
-                    <span><b>Joint supplement</b><small>Daily · 2 of 30 days</small></span>
+                    <span data-i18n="phone.profile.supplement"><b>Ledtillskott</b><small>Dagligen · 2 av 30 dagar</small></span>
                   </div>
                   <div class="tabbar"><span class="is-on"><svg><use href="#i-paw" /></svg></span><span><svg><use href="#i-map" /></svg></span><span><svg><use href="#i-bag" /></svg></span><span><svg><use href="#i-calendar" /></svg></span><span class="sos">SOS</span></div>
                 </div>
@@ -171,15 +194,15 @@
 
             <div class="float float--a" data-float="1">
               <span class="float__ic float__ic--green"><svg><use href="#i-check" /></svg></span>
-              <span><b>Appointment confirmed</b><small>Riverside Vet · Tomorrow 09:00</small></span>
+              <span data-i18n="hero.float1"><b>Bokning bekräftad</b><small>Riverside Vet · I morgon 09:00</small></span>
             </div>
             <div class="float float--b" data-float="2">
               <span class="float__ic float__ic--purple"><svg><use href="#i-bell" /></svg></span>
-              <span><b>Vaccine due in 3 days</b><small>Luna · Rabies booster</small></span>
+              <span data-i18n="hero.float2"><b>Vaccin om 3 dagar</b><small>Luna · Rabiesförstärkning</small></span>
             </div>
             <div class="float float--c" data-float="3">
               <span class="float__ic float__ic--orange"><svg><use href="#i-sync" /></svg></span>
-              <span><b>Synced from clinic</b><small>via Petzo VMS</small></span>
+              <span data-i18n="hero.float3"><b>Synkad från kliniken</b><small>via Petzo VMS</small></span>
             </div>
           </div>
         </div>
@@ -187,24 +210,24 @@
       </section>
 
       <!-- MARQUEE -->
-      <section class="marquee" aria-label="What Petzo does">
+      <section class="marquee" aria-label="Vad Petzo gör">
         <div class="marquee__track" data-marquee>
-          <div class="marquee__group">
-            <span>Vet appointments</span><svg><use href="#i-paw" /></svg>
-            <span>Vaccinations</span><svg><use href="#i-paw" /></svg>
-            <span>Digital passport</span><svg><use href="#i-paw" /></svg>
-            <span>Therapy tracking</span><svg><use href="#i-paw" /></svg>
-            <span>Lost pet SOS</span><svg><use href="#i-paw" /></svg>
-            <span>Clinic map</span><svg><use href="#i-paw" /></svg>
-            <span>Pet insurance</span><svg><use href="#i-paw" /></svg>
+          <div class="marquee__group" data-i18n="marquee">
+            <span>Veterinärbesök</span><svg><use href="#i-paw" /></svg>
+            <span>Vaccinationer</span><svg><use href="#i-paw" /></svg>
+            <span>Digitalt pass</span><svg><use href="#i-paw" /></svg>
+            <span>Behandlingsuppföljning</span><svg><use href="#i-paw" /></svg>
+            <span>Borttappat djur SOS</span><svg><use href="#i-paw" /></svg>
+            <span>Klinikkarta</span><svg><use href="#i-paw" /></svg>
+            <span>Djurförsäkring</span><svg><use href="#i-paw" /></svg>
           </div>
         </div>
       </section>
 
       <!-- INTRO STATEMENT -->
       <section class="statement container">
-        <p class="statement__text" data-words>
-          Petzo is more than an app. It’s your digital partner for a happier, healthier life together — because every pet deserves the best care, and every owner deserves a simple way to give it.
+        <p class="statement__text" data-words data-i18n="statement">
+          Petzo är mer än en app. Det är din digitala partner för ett lyckligare, friskare liv tillsammans — för varje djur förtjänar den bästa omsorgen, och varje ägare förtjänar ett enkelt sätt att ge den.
         </p>
       </section>
 
@@ -212,38 +235,38 @@
       <section class="story" id="features">
         <div class="container">
           <div class="section-head">
-            <p class="eyebrow"><span class="eyebrow__dot"></span> Features</p>
-            <h2 class="h2" data-reveal>The whole care routine, beautifully handled.</h2>
+            <p class="eyebrow" data-i18n="features.eyebrow"><span class="eyebrow__dot"></span> Funktioner</p>
+            <h2 class="h2" data-reveal data-i18n="features.title">Hela omsorgsrutinen, vackert hanterad.</h2>
           </div>
           <div class="story__grid">
             <div class="story__steps">
               <article class="story__step" data-step="0">
                 <span class="story__num">01</span>
                 <span class="story__ic"><svg><use href="#i-calendar" /></svg></span>
-                <h3>Book the right vet in seconds</h3>
-                <p>Browse clinics near you, see available slots and lock in an appointment — with smart reminders so you never miss a visit.</p>
-                <ul class="ticks"><li>Clinics sorted by distance</li><li>Real availability, no phone tag</li><li>Personalised reminders</li></ul>
+                <h3 data-i18n="feat.book.title">Boka rätt veterinär på sekunder</h3>
+                <p data-i18n="feat.book.desc">Bläddra bland kliniker nära dig, se lediga tider och lås in ett besök — med smarta påminnelser så att du aldrig missar.</p>
+                <ul class="ticks"><li data-i18n="feat.book.t1">Kliniker sorterade efter avstånd</li><li data-i18n="feat.book.t2">Verklig tillgänglighet, inget telefonkrångel</li><li data-i18n="feat.book.t3">Personliga påminnelser</li></ul>
               </article>
               <article class="story__step" data-step="1">
                 <span class="story__num">02</span>
                 <span class="story__ic"><svg><use href="#i-heart" /></svg></span>
-                <h3>Health records &amp; therapies, always with you</h3>
-                <p>Vaccinations, check-ups, prescriptions, vet notes and treatment plans — your pet’s complete medical history in one tidy timeline.</p>
-                <ul class="ticks"><li>Vaccines, labs and notes</li><li>Therapy plans with daily check-offs</li><li>Updates straight from your clinic</li></ul>
+                <h3 data-i18n="feat.health.title">Hälsojournal &amp; behandlingar, alltid med dig</h3>
+                <p data-i18n="feat.health.desc">Vaccinationer, kontroller, recept, veterinäranteckningar och behandlingsplaner — ditt djurs kompletta sjukdomshistorik på en tidslinje.</p>
+                <ul class="ticks"><li data-i18n="feat.health.t1">Vaccin, labbresultat och anteckningar</li><li data-i18n="feat.health.t2">Behandlingsplaner med daglig avprickning</li><li data-i18n="feat.health.t3">Uppdateringar direkt från din klinik</li></ul>
               </article>
               <article class="story__step" data-step="2">
                 <span class="story__num">03</span>
                 <span class="story__ic"><svg><use href="#i-sos" /></svg></span>
-                <h3>Lost pet? Send an SOS to the whole community</h3>
-                <p>One tap alerts Petzo users nearby with photos and details, multiplying the eyes looking out for your best friend.</p>
-                <ul class="ticks"><li>Instant neighbourhood alert</li><li>Photos, last-seen location, contact</li><li>Mark found and notify everyone</li></ul>
+                <h3 data-i18n="feat.sos.title">Borttappat djur? Skicka ett SOS till hela grannskapet</h3>
+                <p data-i18n="feat.sos.desc">Med ett tryck varnas Petzo-användare i närheten med bilder och detaljer, så fler ögon letar efter din bästa vän.</p>
+                <ul class="ticks"><li data-i18n="feat.sos.t1">Omedelbart grannvarning</li><li data-i18n="feat.sos.t2">Bilder, senast sedd plats, kontakt</li><li data-i18n="feat.sos.t3">Markera som hittad och meddela alla</li></ul>
               </article>
               <article class="story__step" data-step="3">
                 <span class="story__num">04</span>
                 <span class="story__ic"><svg><use href="#i-passport" /></svg></span>
-                <h3>A digital passport that travels well</h3>
-                <p>Identity, microchip and vaccination status in a single verified card — ready to show at the clinic, the border or the boarding kennel.</p>
-                <ul class="ticks"><li>Microchip &amp; ID details</li><li>Vaccination status at a glance</li><li>Share securely with family</li></ul>
+                <h3 data-i18n="feat.passport.title">Ett digitalt pass som reser bra</h3>
+                <p data-i18n="feat.passport.desc">Identitet, mikrochip och vaccinationsstatus i ett enda verifierat kort — redo att visa på kliniken, gränsen eller hunddagiset.</p>
+                <ul class="ticks"><li data-i18n="feat.passport.t1">Mikrochip &amp; ID-uppgifter</li><li data-i18n="feat.passport.t2">Vaccinationsstatus med en blick</li><li data-i18n="feat.passport.t3">Dela säkert med familjen</li></ul>
               </article>
             </div>
 
@@ -256,35 +279,35 @@
                   <!-- Screen 0: booking -->
                   <div class="screen story__screen is-active" data-screen="0">
                     <div class="sb"><span>9:41</span><span class="sb__icons"><i></i><i></i><i></i></span></div>
-                    <div class="app-top"><span class="app-top__title">Book a visit</span><span class="chip chip--orange">Luna ▾</span></div>
+                    <div class="app-top"><span class="app-top__title" data-i18n="phone.book.title">Boka besök</span><span class="chip chip--orange">Luna ▾</span></div>
                     <div class="banner">
-                      <div><b>Riverside Vet Clinic</b><small>0.9 km · Open until 20:00</small><span class="banner__btn">Book now</span></div>
+                      <div><b>Riverside Vet Clinic</b><small data-i18n="phone.book.banner">0,9 km · Öppet till 20:00</small><span class="banner__btn" data-i18n="phone.book.booknow">Boka nu</span></div>
                       <div class="banner__paw"><svg><use href="#i-paw" /></svg></div>
                     </div>
-                    <p class="screen__label">Thursday, 14 November</p>
+                    <p class="screen__label" data-i18n="phone.book.date">Torsdag, 14 november</p>
                     <div class="slots"><span>09:00</span><span class="is-on">10:30</span><span>11:15</span><span>13:00</span><span class="is-off">14:30</span><span>16:00</span></div>
-                    <p class="screen__label">Nearby clinics</p>
-                    <div class="clinic"><b>Riverside Vet Clinic</b><small>12 Elm Street · 0.9 km</small><em>★ 4.9</em></div>
-                    <div class="clinic"><b>Oakwood Animal Care</b><small>48 Park Road · 2.4 km</small><em>★ 4.8</em></div>
-                    <div class="clinic"><b>Northside Pet Hospital</b><small>5 Hill Lane · 5.9 km</small><em>★ 4.7</em></div>
-                    <div class="cta-bar">Confirm 10:30</div>
+                    <p class="screen__label" data-i18n="phone.book.nearby">Kliniker i närheten</p>
+                    <div class="clinic"><b>Riverside Vet Clinic</b><small>12 Elm Street · 0,9 km</small><em>★ 4,9</em></div>
+                    <div class="clinic"><b>Oakwood Animal Care</b><small>48 Park Road · 2,4 km</small><em>★ 4,8</em></div>
+                    <div class="clinic"><b>Northside Pet Hospital</b><small>5 Hill Lane · 5,9 km</small><em>★ 4,7</em></div>
+                    <div class="cta-bar" data-i18n="phone.book.confirm">Bekräfta 10:30</div>
                   </div>
 
                   <!-- Screen 1: health -->
                   <div class="screen story__screen" data-screen="1">
                     <div class="sb"><span>9:41</span><span class="sb__icons"><i></i><i></i><i></i></span></div>
-                    <div class="app-top"><span class="app-top__title">Health</span><span class="chip chip--orange">Luna ▾</span></div>
-                    <div class="tabs"><span>About</span><span class="is-on">Health</span><span>Insurance</span></div>
+                    <div class="app-top"><span class="app-top__title" data-i18n="phone.health.title">Hälsa</span><span class="chip chip--orange">Luna ▾</span></div>
+                    <div class="tabs"><span data-i18n="phone.health.tab.about">Om</span><span class="is-on" data-i18n="phone.health.tab.health">Hälsa</span><span data-i18n="phone.health.tab.insurance">Försäkring</span></div>
                     <div class="therapy">
                       <div class="therapy__ring"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.5" /><circle cx="18" cy="18" r="15.5" class="therapy__val" /></svg><b>70%</b></div>
-                      <div><b>Antibiotic course</b><small>Day 7 of 10 · 2× daily</small><span class="mini-ok">Morning dose ✓</span></div>
+                      <div><b data-i18n="phone.health.antibiotic">Antibiotikakur</b><small data-i18n="phone.health.antibiotic.sub">Dag 7 av 10 · 2× dagligen</small><span class="mini-ok" data-i18n="phone.health.morning">Morgondos ✓</span></div>
                     </div>
-                    <p class="screen__label">Timeline</p>
+                    <p class="screen__label" data-i18n="phone.health.timeline">Tidslinje</p>
                     <div class="tl">
-                      <div class="tl__item"><span class="tl__dot tl__dot--p"></span><b>Rabies vaccine</b><small>12 Mar 2026 · Riverside Vet</small></div>
-                      <div class="tl__item"><span class="tl__dot tl__dot--o"></span><b>Blood panel · normal</b><small>02 Feb 2026 · Lab results</small></div>
-                      <div class="tl__item"><span class="tl__dot tl__dot--p"></span><b>Annual check-up</b><small>15 Jan 2026 · Dr. Hadžić</small></div>
-                      <div class="tl__item"><span class="tl__dot tl__dot--g"></span><b>Deworming</b><small>04 Dec 2025 · Home</small></div>
+                      <div class="tl__item"><span class="tl__dot tl__dot--p"></span><b data-i18n="phone.health.tl1">Rabiesvaccin</b><small>12 mar 2026 · Riverside Vet</small></div>
+                      <div class="tl__item"><span class="tl__dot tl__dot--o"></span><b data-i18n="phone.health.tl2">Blodprov · normalt</b><small data-i18n="phone.health.tl2s">02 feb 2026 · Labbresultat</small></div>
+                      <div class="tl__item"><span class="tl__dot tl__dot--p"></span><b data-i18n="phone.health.tl3">Årlig kontroll</b><small>15 jan 2026 · Dr. Hadžić</small></div>
+                      <div class="tl__item"><span class="tl__dot tl__dot--g"></span><b data-i18n="phone.health.tl4">Avmaskning</b><small data-i18n="phone.health.tl4s">04 dec 2025 · Hemma</small></div>
                     </div>
                     <div class="tabbar"><span><svg><use href="#i-paw" /></svg></span><span><svg><use href="#i-map" /></svg></span><span><svg><use href="#i-bag" /></svg></span><span class="is-on"><svg><use href="#i-heart" /></svg></span><span class="sos">SOS</span></div>
                   </div>
@@ -292,7 +315,7 @@
                   <!-- Screen 2: SOS -->
                   <div class="screen screen--sos story__screen" data-screen="2">
                     <div class="sb"><span>9:41</span><span class="sb__icons"><i></i><i></i><i></i></span></div>
-                    <div class="app-top"><span class="app-top__title">SOS alert</span><span class="chip chip--red">Live</span></div>
+                    <div class="app-top"><span class="app-top__title" data-i18n="phone.sos.title">SOS-larm</span><span class="chip chip--red" data-i18n="phone.sos.live">Live</span></div>
                     <div class="radar">
                       <span class="radar__ring"></span><span class="radar__ring"></span><span class="radar__ring"></span>
                       <span class="radar__pet"><svg><use href="#i-paw" /></svg></span>
@@ -303,31 +326,31 @@
                       <span class="radar__dot" style="--x:84%;--y:50%"></span>
                     </div>
                     <div class="sos-card">
-                      <b>Max is missing</b>
-                      <small>Beagle · last seen near Central Park, 18:20</small>
-                      <div class="sos-card__stats"><span><b>148</b> notified</span><span><b>12</b> viewing</span></div>
+                      <b data-i18n="phone.sos.missing">Max är försvunnen</b>
+                      <small data-i18n="phone.sos.detail">Beagle · senast sedd nära Central Park, 18:20</small>
+                      <div class="sos-card__stats"><span data-i18n="phone.sos.notified"><b>148</b> meddelade</span><span data-i18n="phone.sos.viewing"><b>12</b> tittar</span></div>
                     </div>
-                    <div class="cta-bar cta-bar--red">Share alert</div>
+                    <div class="cta-bar cta-bar--red" data-i18n="phone.sos.share">Dela larm</div>
                   </div>
 
                   <!-- Screen 3: passport -->
                   <div class="screen story__screen" data-screen="3">
                     <div class="sb"><span>9:41</span><span class="sb__icons"><i></i><i></i><i></i></span></div>
-                    <div class="app-top"><span class="app-top__title">Pet passport</span><span class="chip chip--orange">Luna ▾</span></div>
+                    <div class="app-top"><span class="app-top__title" data-i18n="phone.pass.title">Djurpass</span><span class="chip chip--orange">Luna ▾</span></div>
                     <div class="passport">
-                      <div class="passport__head"><span>PET PASSPORT</span><svg><use href="#i-paw" /></svg></div>
+                      <div class="passport__head"><span data-i18n="phone.pass.head">DJURPASS</span><svg><use href="#i-paw" /></svg></div>
                       <div class="passport__body">
                         <div class="avatar avatar--md avatar--dog"><svg><use href="#i-paw" /></svg></div>
-                        <div><b>Luna</b><small>Golden Retriever · ♀</small><small>Born 10 Jan 2020</small></div>
+                        <div><b>Luna</b><small>Golden Retriever · ♀</small><small data-i18n="phone.pass.born">Född 10 jan 2020</small></div>
                       </div>
-                      <div class="passport__chip"><span>Microchip</span><b>977 200 008 214 821</b></div>
+                      <div class="passport__chip"><span data-i18n="phone.pass.chip">Mikrochip</span><b>977 200 008 214 821</b></div>
                       <div class="passport__mrz">P&lt;PETZO&lt;LUNA&lt;&lt;GOLDEN&lt;RETRIEVER&lt;&lt;&lt;</div>
                     </div>
-                    <p class="screen__label">Vaccination status</p>
-                    <div class="vax"><span>Rabies</span><b class="ok">Valid · Mar 2027</b></div>
-                    <div class="vax"><span>DHPP</span><b class="ok">Valid · Jan 2027</b></div>
-                    <div class="vax"><span>Leptospirosis</span><b class="due">Due in 3 weeks</b></div>
-                    <div class="cta-bar">Share passport</div>
+                    <p class="screen__label" data-i18n="phone.pass.vaxstatus">Vaccinationsstatus</p>
+                    <div class="vax"><span>Rabies</span><b class="ok" data-i18n="phone.pass.rabies">Giltig · mar 2027</b></div>
+                    <div class="vax"><span>DHPP</span><b class="ok" data-i18n="phone.pass.dhpp">Giltig · jan 2027</b></div>
+                    <div class="vax"><span data-i18n="phone.pass.lepto">Leptospiros</span><b class="due" data-i18n="phone.pass.leptoval">Förfaller om 3 veckor</b></div>
+                    <div class="cta-bar" data-i18n="phone.pass.share">Dela pass</div>
                   </div>
                 </div>
               </div>
@@ -340,15 +363,15 @@
       <!-- BENTO -->
       <section class="bento-wrap container">
         <div class="section-head section-head--row">
-          <h2 class="h2" data-reveal>And all the little things that add up to peace of mind.</h2>
-          <p class="section-head__aside" data-reveal>Petzo grows with your household — from first adoption to the senior years.</p>
+          <h2 class="h2" data-reveal data-i18n="bento.title">Och alla småsaker som ger sinnesro.</h2>
+          <p class="section-head__aside" data-reveal data-i18n="bento.aside">Petzo växer med ditt hushåll — från första adoptionen till senioråren.</p>
         </div>
         <div class="bento">
           <article class="bento__card bento__card--wide bento__card--share" data-card>
             <div class="bento__copy">
               <span class="bento__ic"><svg><use href="#i-share" /></svg></span>
-              <h3>Share care with family</h3>
-              <p>Invite a partner, a sitter or grandma. Everyone sees the same profile, reminders and health data.</p>
+              <h3 data-i18n="bento.share.title">Dela omsorgen med familjen</h3>
+              <p data-i18n="bento.share.desc">Bjud in en partner, djurvakt eller mormor. Alla ser samma profil, påminnelser och hälsodata.</p>
             </div>
             <div class="share-vis" aria-hidden="true">
               <span class="share-vis__av" style="--c:#623BB2">A</span>
@@ -359,32 +382,32 @@
           </article>
           <article class="bento__card bento__card--map" data-card>
             <span class="bento__ic"><svg><use href="#i-map" /></svg></span>
-            <h3>Clinics on a map</h3>
-            <p>Every partner clinic, pinned and a tap away.</p>
+            <h3 data-i18n="bento.map.title">Kliniker på kartan</h3>
+            <p data-i18n="bento.map.desc">Alla partnerkliniker, markerade och ett tryck bort.</p>
             <div class="map-vis" aria-hidden="true">
               <span style="--x:22%;--y:40%"></span><span style="--x:58%;--y:28%"></span><span style="--x:72%;--y:66%"></span><span class="is-me" style="--x:42%;--y:62%"></span>
             </div>
           </article>
           <article class="bento__card" data-card>
             <span class="bento__ic"><svg><use href="#i-shield" /></svg></span>
-            <h3>Pet insurance</h3>
-            <p>Be ready for the unexpected with cover managed right inside the app.</p>
+            <h3 data-i18n="bento.insurance.title">Djurförsäkring</h3>
+            <p data-i18n="bento.insurance.desc">Var förberedd på det oväntade med försäkring som hanteras direkt i appen.</p>
           </article>
           <article class="bento__card" data-card>
             <span class="bento__ic"><svg><use href="#i-bag" /></svg></span>
-            <h3>Built-in shop</h3>
-            <p>Quality food, vitamins and supplements delivered — fast and reliably.</p>
+            <h3 data-i18n="bento.shop.title">Inbyggd butik</h3>
+            <p data-i18n="bento.shop.desc">Kvalitetsfoder, vitaminer och tillskott levererade — snabbt och pålitligt.</p>
           </article>
           <article class="bento__card bento__card--purple" data-card>
             <span class="bento__ic"><svg><use href="#i-game" /></svg></span>
-            <h3>Find your perfect match</h3>
-            <p>Dreaming of a pet? A playful quiz helps you choose one that fits your lifestyle.</p>
+            <h3 data-i18n="bento.match.title">Hitta din perfekta match</h3>
+            <p data-i18n="bento.match.desc">Drömmer du om ett djur? Ett lekfullt quiz hjälper dig välja ett som passar din livsstil.</p>
           </article>
           <article class="bento__card bento__card--wide bento__card--pets" data-card>
             <div class="bento__copy">
               <span class="bento__ic"><svg><use href="#i-paw" /></svg></span>
-              <h3>One account, every pet</h3>
-              <p>Dogs, cats, rabbits, the lot. Switch between profiles in a single tap.</p>
+              <h3 data-i18n="bento.pets.title">Ett konto, alla djur</h3>
+              <p data-i18n="bento.pets.desc">Hundar, katter, kaniner, alla. Byt mellan profiler med ett enda tryck.</p>
             </div>
             <div class="pets-vis" aria-hidden="true">
               <span class="pets-vis__p" style="--c:#F3A93B">Luna</span>
@@ -400,8 +423,8 @@
       <section class="how" id="how">
         <div class="container">
           <div class="section-head section-head--center">
-            <p class="eyebrow"><span class="eyebrow__dot"></span> How it works</p>
-            <h2 class="h2" data-reveal>Your path to a healthier pet takes three steps.</h2>
+            <p class="eyebrow" data-i18n="how.eyebrow"><span class="eyebrow__dot"></span> Så fungerar det</p>
+            <h2 class="h2" data-reveal data-i18n="how.title">Din väg till ett friskare djur i tre steg.</h2>
           </div>
           <div class="how__track">
             <svg class="how__line" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
@@ -413,42 +436,42 @@
                 <div class="how__vis">
                   <div class="appcard">
                     <span class="appcard__icon"><span class="logo-mark"></span></span>
-                    <span class="appcard__meta"><b>Petzo</b><small>Ultimate pet care</small></span>
-                    <span class="appcard__get">GET</span>
+                    <span class="appcard__meta"><b>Petzo</b><small data-i18n="how.s1.appsub">Ultimat djuromsorg</small></span>
+                    <span class="appcard__get" data-i18n="how.s1.get">HÄMTA</span>
                   </div>
                   <div class="appcard__stores">
                     <span><svg><use href="#i-apple" /></svg> App Store</span>
                     <span><svg><use href="#i-play-store" /></svg> Google Play</span>
                   </div>
                 </div>
-                <h3>Download the app</h3>
-                <p>Get Petzo from the App Store or Google Play and create your profile in under a minute.</p>
+                <h3 data-i18n="how.s1.title">Ladda ner appen</h3>
+                <p data-i18n="how.s1.desc">Hämta Petzo från App Store eller Google Play och skapa din profil på under en minut.</p>
               </li>
               <li class="how__step" data-how>
                 <span class="how__badge">2</span>
                 <div class="how__vis">
                   <div class="regform">
-                    <div class="regform__head"><b>Add your pet</b><small>Step 2 of 6</small></div>
+                    <div class="regform__head"><b data-i18n="how.s2.form.title">Lägg till ditt djur</b><small data-i18n="how.s2.form.step">Steg 2 av 6</small></div>
                     <div class="regform__bar"><i></i></div>
-                    <div class="regform__field"><small>Name</small><b>Luna</b></div>
-                    <div class="regform__field"><small>Breed</small><b>Golden Retriever</b></div>
-                    <div class="regform__sizes"><span>Small</span><span>Medium</span><span class="is-on">Large</span></div>
+                    <div class="regform__field"><small data-i18n="how.s2.form.name">Namn</small><b>Luna</b></div>
+                    <div class="regform__field"><small data-i18n="how.s2.form.breed">Ras</small><b>Golden Retriever</b></div>
+                    <div class="regform__sizes"><span data-i18n="how.s2.form.small">Liten</span><span data-i18n="how.s2.form.medium">Medel</span><span class="is-on" data-i18n="how.s2.form.large">Stor</span></div>
                   </div>
                 </div>
-                <h3>Register your pet</h3>
-                <p>Add name, species, breed, weight and birthday. Petzo even suggests the size from the breed.</p>
+                <h3 data-i18n="how.s2.title">Registrera ditt djur</h3>
+                <p data-i18n="how.s2.desc">Lägg till namn, art, ras, vikt och födelsedag. Petzo föreslår till och med storleken utifrån rasen.</p>
               </li>
               <li class="how__step" data-how>
                 <span class="how__badge">3</span>
                 <div class="how__vis">
                   <div class="notif-stack">
-                    <div class="notif"><span class="list-row__ic list-row__ic--purple"><svg><use href="#i-syringe" /></svg></span><span><b>Rabies booster tomorrow</b><small>Riverside Vet · 10:30</small></span></div>
-                    <div class="notif"><span class="list-row__ic list-row__ic--orange"><svg><use href="#i-pill" /></svg></span><span><b>Time for Luna’s supplement</b><small>Daily · 08:00</small></span></div>
-                    <div class="notif"><span class="list-row__ic list-row__ic--green"><svg><use href="#i-check" /></svg></span><span><b>Check-up booked</b><small>Thu, 14 Nov · Oakwood</small></span></div>
+                    <div class="notif"><span class="list-row__ic list-row__ic--purple"><svg><use href="#i-syringe" /></svg></span><span data-i18n="how.s3.n1"><b>Rabiesförstärkning i morgon</b><small>Riverside Vet · 10:30</small></span></div>
+                    <div class="notif"><span class="list-row__ic list-row__ic--orange"><svg><use href="#i-pill" /></svg></span><span data-i18n="how.s3.n2"><b>Dags för Lunas tillskott</b><small>Dagligen · 08:00</small></span></div>
+                    <div class="notif"><span class="list-row__ic list-row__ic--green"><svg><use href="#i-check" /></svg></span><span data-i18n="how.s3.n3"><b>Kontroll bokad</b><small>Tor, 14 nov · Oakwood</small></span></div>
                   </div>
                 </div>
-                <h3>Track and book</h3>
-                <p>Log check-ups and therapies, book your vet and get personalised reminders that keep care on schedule.</p>
+                <h3 data-i18n="how.s3.title">Följ upp och boka</h3>
+                <p data-i18n="how.s3.desc">Logga kontroller och behandlingar, boka din veterinär och få personliga påminnelser som håller omsorgen på spåret.</p>
               </li>
             </ol>
           </div>
@@ -460,9 +483,9 @@
         <div class="integrations__bg" aria-hidden="true"><canvas class="integrations__canvas" data-dotfield></canvas></div>
         <div class="container integrations__inner">
           <div class="section-head section-head--center section-head--dark">
-            <p class="eyebrow eyebrow--dark"><span class="eyebrow__dot"></span> Integrations</p>
-            <h2 class="h2" data-reveal>One app at the centre of a connected ecosystem.</h2>
-            <p class="section-head__sub" data-reveal>Petzo plugs into the systems behind your pet’s care, so information flows to where it’s needed — automatically, securely and in real time.</p>
+            <p class="eyebrow eyebrow--dark" data-i18n="int.eyebrow"><span class="eyebrow__dot"></span> Integrationer</p>
+            <h2 class="h2" data-reveal data-i18n="int.title">En app i centrum av ett uppkopplat ekosystem.</h2>
+            <p class="section-head__sub" data-reveal data-i18n="int.sub">Petzo kopplas in i systemen bakom ditt djurs vård, så att information flödar dit den behövs — automatiskt, säkert och i realtid.</p>
           </div>
 
           <!-- Hub -->
@@ -497,24 +520,24 @@
             </div>
             <a href="#vms" class="hub__node hub__node--vms" style="--x:15%;--y:25%">
               <span class="hub__node-ic"><svg><use href="#i-clinic" /></svg></span>
-              <span><b>Petzo VMS</b><small>Clinic management</small></span>
-              <em class="tag tag--live">Featured</em>
+              <span><b>Petzo VMS</b><small data-i18n="hub.vms.sub">Klinikhantering</small></span>
+              <em class="tag tag--live" data-i18n="hub.vms.tag">Utvalda</em>
             </a>
             <div class="hub__node" style="--x:85%;--y:21.4%">
               <span class="hub__node-ic"><svg><use href="#i-shield" /></svg></span>
-              <span><b>Pet insurance</b><small>Policies &amp; cover</small></span>
+              <span><b data-i18n="hub.ins.title">Djurförsäkring</b><small data-i18n="hub.ins.sub">Försäkringar &amp; skydd</small></span>
             </div>
             <div class="hub__node" style="--x:86%;--y:76.8%">
               <span class="hub__node-ic"><svg><use href="#i-bag" /></svg></span>
-              <span><b>Pet shop</b><small>Food &amp; supplements</small></span>
+              <span><b data-i18n="hub.shop.title">Djurbutik</b><small data-i18n="hub.shop.sub">Foder &amp; tillskott</small></span>
             </div>
             <div class="hub__node" style="--x:14%;--y:76.8%">
               <span class="hub__node-ic"><svg><use href="#i-map" /></svg></span>
-              <span><b>Clinic map</b><small>Partner locations</small></span>
+              <span><b data-i18n="hub.map.title">Klinikkarta</b><small data-i18n="hub.map.sub">Partnerplatser</small></span>
             </div>
             <div class="hub__node" style="--x:50%;--y:91%">
               <span class="hub__node-ic"><svg><use href="#i-sos" /></svg></span>
-              <span><b>SOS network</b><small>Community alerts</small></span>
+              <span><b data-i18n="hub.sos.title">SOS-nätverk</b><small data-i18n="hub.sos.sub">Samhällslarm</small></span>
             </div>
           </div>
 
@@ -522,15 +545,15 @@
           <div class="vms" id="vms">
             <div class="vms__head">
               <div>
-                <p class="eyebrow eyebrow--dark"><span class="eyebrow__dot eyebrow__dot--orange"></span> Featured integration</p>
-                <h2 class="h2 vms__title" data-reveal>Petzo <span class="grad-text">VMS</span></h2>
-                <p class="vms__lede" data-reveal>A modern Veterinary Management System that runs the clinic — and talks directly to the Petzo app in your clients’ pockets. Records, appointments and therapies stay in sync on both sides, with no double entry.</p>
+                <p class="eyebrow eyebrow--dark" data-i18n="vms.eyebrow"><span class="eyebrow__dot eyebrow__dot--orange"></span> Utvald integration</p>
+                <h2 class="h2 vms__title" data-reveal data-i18n="vms.title">Petzo <span class="grad-text">VMS</span></h2>
+                <p class="vms__lede" data-reveal data-i18n="vms.lede">Ett modernt veterinärt managementsystem som driver kliniken — och kommunicerar direkt med Petzo-appen i dina klienters fickor. Journaler, bokningar och behandlingar synkas på båda sidor, utan dubbelinmatning.</p>
                 <div class="vms__ctas" data-reveal>
-                  <a href="#contact" class="btn btn--orange" data-magnetic><span>Book a VMS demo</span><svg><use href="#i-arrow" /></svg></a>
-                  <a href="https://vms.services/" target="_blank" rel="noopener" class="btn btn--glass"><span>Open VMS panel</span></a>
+                  <a href="#contact" class="btn btn--orange" data-magnetic><span data-i18n="vms.demo">Boka en VMS-demo</span><svg><use href="#i-arrow" /></svg></a>
+                  <a href="https://vms.services/" target="_blank" rel="noopener" class="btn btn--glass"><span data-i18n="vms.panel">Öppna VMS-panelen</span></a>
                   <button class="play-btn play-btn--dark" data-video="https://petzoapp.com/wp-content/uploads/2024/12/vms_Promo-Video_Final.mp4">
                     <span class="play-btn__icon"><svg><use href="#i-play" /></svg></span>
-                    Watch VMS film
+                    <span data-i18n="vms.film">Se VMS-filmen</span>
                   </button>
                 </div>
               </div>
@@ -543,28 +566,28 @@
                 <div class="dash__body">
                   <aside class="dash__side">
                     <div class="dash__brand"><svg><use href="#i-clinic" /></svg> VMS</div>
-                    <span class="is-on"><svg><use href="#i-chart" /></svg>Dashboard</span>
-                    <span><svg><use href="#i-users" /></svg>Patients</span>
-                    <span><svg><use href="#i-calendar" /></svg>Appointments</span>
-                    <span><svg><use href="#i-box" /></svg>Inventory</span>
-                    <span><svg><use href="#i-folder" /></svg>Records</span>
-                    <span><svg><use href="#i-chat" /></svg>Messages</span>
+                    <span class="is-on"><svg><use href="#i-chart" /></svg><span data-i18n="dash.nav.dashboard">Översikt</span></span>
+                    <span><svg><use href="#i-users" /></svg><span data-i18n="dash.nav.patients">Patienter</span></span>
+                    <span><svg><use href="#i-calendar" /></svg><span data-i18n="dash.nav.appointments">Bokningar</span></span>
+                    <span><svg><use href="#i-box" /></svg><span data-i18n="dash.nav.inventory">Lager</span></span>
+                    <span><svg><use href="#i-folder" /></svg><span data-i18n="dash.nav.records">Journaler</span></span>
+                    <span><svg><use href="#i-chat" /></svg><span data-i18n="dash.nav.messages">Meddelanden</span></span>
                   </aside>
                   <div class="dash__main">
                     <div class="dash__stats">
-                      <div><small>Today’s visits</small><b data-count="18">0</b><i class="up">+12%</i></div>
-                      <div><small>Active patients</small><b data-count="1284">0</b><i class="up">+4%</i></div>
-                      <div><small>Low-stock items</small><b data-count="3">0</b><i class="warn">Reorder</i></div>
+                      <div><small data-i18n="dash.stat.visits">Dagens besök</small><b data-count="18">0</b><i class="up">+12%</i></div>
+                      <div><small data-i18n="dash.stat.patients">Aktiva patienter</small><b data-count="1284">0</b><i class="up">+4%</i></div>
+                      <div><small data-i18n="dash.stat.stock">Lågt i lager</small><b data-count="3">0</b><i class="warn" data-i18n="dash.stat.reorder">Beställ</i></div>
                     </div>
                     <div class="dash__chart">
-                      <div class="dash__chart-head"><b>Appointments this week</b><small>Mon – Sun</small></div>
+                      <div class="dash__chart-head"><b data-i18n="dash.chart.title">Bokningar denna vecka</b><small data-i18n="dash.chart.range">Mån – Sön</small></div>
                       <div class="bars"><span style="--h:46%"></span><span style="--h:68%"></span><span style="--h:54%"></span><span style="--h:82%"></span><span style="--h:92%"></span><span style="--h:60%"></span><span style="--h:34%"></span></div>
                     </div>
                     <div class="dash__table">
-                      <div class="dash__row dash__row--head"><span>Patient</span><span>Owner</span><span>Procedure</span><span>Status</span></div>
-                      <div class="dash__row dash__row--hl" data-sync-row><span><i class="dot" style="--c:#F3A93B"></i>Luna</span><span>A. Kovač</span><span>Rabies booster</span><span class="st st--sync">Sent to app</span></div>
-                      <div class="dash__row"><span><i class="dot" style="--c:#623BB2"></i>Milo</span><span>S. Begić</span><span>Dental check</span><span class="st">In progress</span></div>
-                      <div class="dash__row"><span><i class="dot" style="--c:#4CB59A"></i>Kiki</span><span>L. Marić</span><span>Lab panel</span><span class="st st--done">Completed</span></div>
+                      <div class="dash__row dash__row--head"><span data-i18n="dash.th.patient">Patient</span><span data-i18n="dash.th.owner">Ägare</span><span data-i18n="dash.th.procedure">Åtgärd</span><span data-i18n="dash.th.status">Status</span></div>
+                      <div class="dash__row dash__row--hl" data-sync-row><span><i class="dot" style="--c:#F3A93B"></i>Luna</span><span>A. Kovač</span><span data-i18n="dash.r1.proc">Rabiesförstärkning</span><span class="st st--sync" data-i18n="dash.r1.status">Skickat till app</span></div>
+                      <div class="dash__row"><span><i class="dot" style="--c:#623BB2"></i>Milo</span><span>S. Begić</span><span data-i18n="dash.r2.proc">Tandkontroll</span><span class="st" data-i18n="dash.r2.status">Pågående</span></div>
+                      <div class="dash__row"><span><i class="dot" style="--c:#4CB59A"></i>Kiki</span><span>L. Marić</span><span data-i18n="dash.r3.proc">Labbpanel</span><span class="st st--done" data-i18n="dash.r3.status">Slutförd</span></div>
                     </div>
                   </div>
                 </div>
@@ -572,7 +595,7 @@
 
               <div class="sync__beam" aria-hidden="true">
                 <svg viewBox="0 0 200 40" preserveAspectRatio="none"><path d="M0 20 H200" /><path d="M0 20 H200" class="sync__beam-glow" /></svg>
-                <span class="sync__badge"><svg><use href="#i-lock" /></svg> Encrypted sync</span>
+                <span class="sync__badge" data-i18n="sync.badge"><svg><use href="#i-lock" /></svg> Krypterad synk</span>
               </div>
 
               <div class="phone phone--sync">
@@ -580,20 +603,20 @@
                   <div class="phone__island"></div>
                   <div class="screen">
                     <div class="sb"><span>9:41</span><span class="sb__icons"><i></i><i></i><i></i></span></div>
-                    <div class="app-top"><span class="app-top__title">Health</span><span class="chip chip--orange">Luna ▾</span></div>
+                    <div class="app-top"><span class="app-top__title" data-i18n="sync.phone.title">Hälsa</span><span class="chip chip--orange">Luna ▾</span></div>
                     <div class="push" data-sync-push>
                       <span class="push__ic"><img src="/favicon.png" alt="" width="20" height="20" /></span>
-                      <span><b>Riverside Vet updated Luna’s record</b><small>Rabies booster · valid until Nov 2027</small></span>
+                      <span data-i18n="sync.phone.push"><b>Riverside Vet uppdaterade Lunas journal</b><small>Rabiesförstärkning · giltig t.o.m. nov 2027</small></span>
                     </div>
                     <div class="tl">
-                      <div class="tl__item tl__item--new" data-sync-item><span class="tl__dot tl__dot--o"></span><b>Rabies booster</b><small>Today · Riverside Vet</small></div>
-                      <div class="tl__item"><span class="tl__dot tl__dot--p"></span><b>Blood panel · normal</b><small>02 Feb 2026</small></div>
-                      <div class="tl__item"><span class="tl__dot tl__dot--p"></span><b>Annual check-up</b><small>15 Jan 2026</small></div>
-                      <div class="tl__item"><span class="tl__dot tl__dot--g"></span><b>Deworming</b><small>04 Dec 2025</small></div>
+                      <div class="tl__item tl__item--new" data-sync-item><span class="tl__dot tl__dot--o"></span><b data-i18n="sync.phone.tl1">Rabiesförstärkning</b><small data-i18n="sync.phone.tl1s">Idag · Riverside Vet</small></div>
+                      <div class="tl__item"><span class="tl__dot tl__dot--p"></span><b data-i18n="sync.phone.tl2">Blodprov · normalt</b><small>02 feb 2026</small></div>
+                      <div class="tl__item"><span class="tl__dot tl__dot--p"></span><b data-i18n="sync.phone.tl3">Årlig kontroll</b><small>15 jan 2026</small></div>
+                      <div class="tl__item"><span class="tl__dot tl__dot--g"></span><b data-i18n="sync.phone.tl4">Avmaskning</b><small>04 dec 2025</small></div>
                     </div>
                     <div class="therapy">
                       <div class="therapy__ring"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.5" /><circle cx="18" cy="18" r="15.5" class="therapy__val" /></svg><b>70%</b></div>
-                      <div><b>Antibiotic course</b><small>Prescribed by Riverside Vet</small></div>
+                      <div><b data-i18n="sync.phone.therapy">Antibiotikakur</b><small data-i18n="sync.phone.therapys">Förskriven av Riverside Vet</small></div>
                     </div>
                     <div class="tabbar"><span><svg><use href="#i-paw" /></svg></span><span><svg><use href="#i-map" /></svg></span><span><svg><use href="#i-bag" /></svg></span><span class="is-on"><svg><use href="#i-heart" /></svg></span><span class="sos">SOS</span></div>
                   </div>
@@ -606,32 +629,32 @@
               <article class="cap cap--lead" data-cap>
                 <span class="cap__ic"><svg><use href="#i-folder" /></svg></span>
                 <div class="records" aria-hidden="true">
-                  <div class="records__row"><span class="records__tag records__tag--p">Vaccine</span><b>Rabies booster</b><small>14 Nov 2026</small></div>
-                  <div class="records__row"><span class="records__tag records__tag--o">Lab</span><b>Blood panel · normal</b><small>02 Feb 2026</small></div>
-                  <div class="records__row"><span class="records__tag records__tag--g">Therapy</span><b>Antibiotics · 10 days</b><small>20 Jan 2026</small></div>
-                  <div class="records__row"><span class="records__tag records__tag--p">Exam</span><b>Annual check-up</b><small>15 Jan 2026</small></div>
+                  <div class="records__row"><span class="records__tag records__tag--p" data-i18n="cap.rec.t1">Vaccin</span><b data-i18n="cap.rec.r1">Rabiesförstärkning</b><small>14 nov 2026</small></div>
+                  <div class="records__row"><span class="records__tag records__tag--o" data-i18n="cap.rec.t2">Labb</span><b data-i18n="cap.rec.r2">Blodprov · normalt</b><small>02 feb 2026</small></div>
+                  <div class="records__row"><span class="records__tag records__tag--g" data-i18n="cap.rec.t3">Behandling</span><b data-i18n="cap.rec.r3">Antibiotika · 10 dagar</b><small>20 jan 2026</small></div>
+                  <div class="records__row"><span class="records__tag records__tag--p" data-i18n="cap.rec.t4">Undersökning</span><b data-i18n="cap.rec.r4">Årlig kontroll</b><small>15 jan 2026</small></div>
                 </div>
-                <h3>Detailed patient records</h3>
-                <p>Complete medical histories — exams, vaccinations, therapies and lab results — organised and instantly searchable, so vets spend time on care, not paperwork.</p>
+                <h3 data-i18n="cap.records.title">Detaljerade patientjournaler</h3>
+                <p data-i18n="cap.records.desc">Kompletta sjukdomshistorik — undersökningar, vaccinationer, behandlingar och labbresultat — organiserade och direkt sökbara, så att veterinärer ägnar tid åt vård, inte pappersarbete.</p>
               </article>
-              <article class="cap" data-cap><span class="cap__ic"><svg><use href="#i-calendar" /></svg></span><h3>Appointment management</h3><p>Bookings from the Petzo app land straight in the clinic calendar.</p></article>
-              <article class="cap" data-cap><span class="cap__ic"><svg><use href="#i-chat" /></svg></span><h3>Digital communication</h3><p>Transparent, timely updates to owners — without the phone calls.</p></article>
-              <article class="cap" data-cap><span class="cap__ic"><svg><use href="#i-box" /></svg></span><h3>Inventory &amp; procurement</h3><p>Track stock levels and reorder supplies before they run out.</p></article>
-              <article class="cap" data-cap><span class="cap__ic"><svg><use href="#i-passport" /></svg></span><h3>Digital filing</h3><p>A paperless archive for every patient and every visit.</p></article>
-              <article class="cap" data-cap><span class="cap__ic"><svg><use href="#i-chart" /></svg></span><h3>Reports &amp; analytics</h3><p>Custom reports that show how your practice is really performing.</p></article>
-              <article class="cap" data-cap><span class="cap__ic"><svg><use href="#i-users" /></svg></span><h3>Multi-user &amp; multi-location</h3><p>Roles for the whole team, across every branch of your practice.</p></article>
-              <article class="cap cap--accent" data-cap><span class="cap__ic"><svg><use href="#i-sync" /></svg></span><h3>Native Petzo sync</h3><p>The two-way bridge between clinic and owner — the heart of the ecosystem.</p></article>
+              <article class="cap" data-cap><span class="cap__ic"><svg><use href="#i-calendar" /></svg></span><h3 data-i18n="cap.appt.title">Bokningshantering</h3><p data-i18n="cap.appt.desc">Bokningar från Petzo-appen landar direkt i klinikkalendern.</p></article>
+              <article class="cap" data-cap><span class="cap__ic"><svg><use href="#i-chat" /></svg></span><h3 data-i18n="cap.comm.title">Digital kommunikation</h3><p data-i18n="cap.comm.desc">Transparenta, snabba uppdateringar till djurägare — utan telefonsamtal.</p></article>
+              <article class="cap" data-cap><span class="cap__ic"><svg><use href="#i-box" /></svg></span><h3 data-i18n="cap.inv.title">Lager &amp; inköp</h3><p data-i18n="cap.inv.desc">Följ lagernivåer och beställ varor innan de tar slut.</p></article>
+              <article class="cap" data-cap><span class="cap__ic"><svg><use href="#i-passport" /></svg></span><h3 data-i18n="cap.file.title">Digital arkivering</h3><p data-i18n="cap.file.desc">Ett papperslöst arkiv för varje patient och varje besök.</p></article>
+              <article class="cap" data-cap><span class="cap__ic"><svg><use href="#i-chart" /></svg></span><h3 data-i18n="cap.report.title">Rapporter &amp; analys</h3><p data-i18n="cap.report.desc">Anpassade rapporter som visar hur din praktik verkligen presterar.</p></article>
+              <article class="cap" data-cap><span class="cap__ic"><svg><use href="#i-users" /></svg></span><h3 data-i18n="cap.multi.title">Fleranvändare &amp; flerplats</h3><p data-i18n="cap.multi.desc">Roller för hela teamet, över alla filialer i din praktik.</p></article>
+              <article class="cap cap--accent" data-cap><span class="cap__ic"><svg><use href="#i-sync" /></svg></span><h3 data-i18n="cap.sync.title">Inbyggd Petzo-synk</h3><p data-i18n="cap.sync.desc">Tvåvägsbron mellan klinik och ägare — hjärtat i ekosystemet.</p></article>
             </div>
 
             <div class="why">
               <div class="why__col">
-                <p class="why__kicker">For pet owners</p>
-                <p class="why__text">Personalised care and a complete view of your pet’s health, wherever you are.</p>
+                <p class="why__kicker" data-i18n="why.owners.kicker">För djurägare</p>
+                <p class="why__text" data-i18n="why.owners.text">Personlig omsorg och en komplett bild av ditt djurs hälsa, var du än är.</p>
               </div>
               <div class="why__plus" aria-hidden="true"><svg><use href="#i-plus" /></svg></div>
               <div class="why__col">
-                <p class="why__kicker">For veterinarians</p>
-                <p class="why__text">Better understanding and planning of every patient’s care — with less admin.</p>
+                <p class="why__kicker" data-i18n="why.vets.kicker">För veterinärer</p>
+                <p class="why__text" data-i18n="why.vets.text">Bättre förståelse och planering av varje patients vård — med mindre administration.</p>
               </div>
             </div>
           </div>
@@ -643,62 +666,62 @@
         <div class="faq__aside">
           <div class="faq__intro">
             <p class="eyebrow"><span class="eyebrow__dot"></span> FAQ</p>
-            <h2 class="h2" data-reveal>Questions, answered.</h2>
-            <p class="faq__sub">Everything you need to know about Petzo and Petzo VMS. Pick a topic to narrow it down.</p>
-            <div class="faq__filters" role="group" aria-label="Filter questions by topic">
-              <button class="faq__filter" type="button" data-filter="all" aria-pressed="true">All <span data-faq-count="all"></span></button>
-              <button class="faq__filter" type="button" data-filter="app" aria-pressed="false">The app <span data-faq-count="app"></span></button>
-              <button class="faq__filter" type="button" data-filter="vets" aria-pressed="false">Vets &amp; VMS <span data-faq-count="vets"></span></button>
-              <button class="faq__filter" type="button" data-filter="help" aria-pressed="false">Support <span data-faq-count="help"></span></button>
+            <h2 class="h2" data-reveal data-i18n="faq.title">Frågor, besvarade.</h2>
+            <p class="faq__sub" data-i18n="faq.sub">Allt du behöver veta om Petzo och Petzo VMS. Välj ett ämne för att filtrera.</p>
+            <div class="faq__filters" role="group" aria-label="Filtrera frågor efter ämne">
+              <button class="faq__filter" type="button" data-filter="all" aria-pressed="true"><span data-i18n="faq.f.all">Alla</span> <span data-faq-count="all"></span></button>
+              <button class="faq__filter" type="button" data-filter="app" aria-pressed="false"><span data-i18n="faq.f.app">Appen</span> <span data-faq-count="app"></span></button>
+              <button class="faq__filter" type="button" data-filter="vets" aria-pressed="false"><span data-i18n="faq.f.vets">Vet &amp; VMS</span> <span data-faq-count="vets"></span></button>
+              <button class="faq__filter" type="button" data-filter="help" aria-pressed="false"><span data-i18n="faq.f.help">Support</span> <span data-faq-count="help"></span></button>
             </div>
           </div>
           <aside class="faq__help">
             <span class="faq__help-ic"><svg><use href="#i-chat" /></svg></span>
-            <h3>Still have a question?</h3>
-            <p>Our team is happy to help — by email, or right inside the app.</p>
+            <h3 data-i18n="faq.help.title">Har du fortfarande en fråga?</h3>
+            <p data-i18n="faq.help.desc">Vårt team hjälper gärna — via e-post eller direkt i appen.</p>
             <div class="faq__help-actions">
-              <a href="#contact" class="btn btn--orange btn--sm" data-magnetic><span>Contact us</span><svg><use href="#i-arrow" /></svg></a>
+              <a href="#contact" class="btn btn--orange btn--sm" data-magnetic><span data-i18n="faq.help.cta">Kontakta oss</span><svg><use href="#i-arrow" /></svg></a>
               <a href="mailto:info@petzoapp.com" class="faq__help-mail">info@petzoapp.com</a>
             </div>
-            <a href="#vms" class="faq__help-foot"><span>Running a clinic?</span> See Petzo VMS <svg><use href="#i-arrow" /></svg></a>
+            <a href="#vms" class="faq__help-foot" data-i18n="faq.help.foot"><span>Driver du en klinik?</span> Se Petzo VMS <svg><use href="#i-arrow" /></svg></a>
           </aside>
         </div>
         <div class="faq__list">
           <details class="qa" data-cat="app" open>
-            <summary><span class="qa__num">01</span><span class="qa__q">What is Petzo?</span><span class="qa__ic" aria-hidden="true"></span></summary>
-            <div class="qa__a"><p>Petzo is a digital platform for pet owners. Track your pets’ health data, book vet appointments and much more — all in one place.</p></div>
+            <summary><span class="qa__num">01</span><span class="qa__q" data-i18n="faq.q01">Vad är Petzo?</span><span class="qa__ic" aria-hidden="true"></span></summary>
+            <div class="qa__a"><p data-i18n="faq.a01">Petzo är en digital plattform för djurägare. Följ ditt djurs hälsodata, boka veterinärbesök och mycket mer — allt på ett ställe.</p></div>
           </details>
           <details class="qa" data-cat="app">
-            <summary><span class="qa__num">02</span><span class="qa__q">Is the app free?</span><span class="qa__ic" aria-hidden="true"></span></summary>
-            <div class="qa__a"><p>The core features of Petzo are completely free. A premium plan adds advanced features for owners who want more.</p></div>
+            <summary><span class="qa__num">02</span><span class="qa__q" data-i18n="faq.q02">Är appen gratis?</span><span class="qa__ic" aria-hidden="true"></span></summary>
+            <div class="qa__a"><p data-i18n="faq.a02">Grundfunktionerna i Petzo är helt gratis. En premiumplan lägger till avancerade funktioner för ägare som vill ha mer.</p></div>
           </details>
           <details class="qa" data-cat="app">
-            <summary><span class="qa__num">03</span><span class="qa__q">What is the digital pet passport?</span><span class="qa__ic" aria-hidden="true"></span></summary>
-            <div class="qa__a"><p>It’s the central place for everything about your pet — vaccinations, exams, therapies and other important health information, ready to share when you need it.</p></div>
+            <summary><span class="qa__num">03</span><span class="qa__q" data-i18n="faq.q03">Vad är det digitala djurpasset?</span><span class="qa__ic" aria-hidden="true"></span></summary>
+            <div class="qa__a"><p data-i18n="faq.a03">Det är den centrala platsen för allt om ditt djur — vaccinationer, undersökningar, behandlingar och annan viktig hälsoinformation, redo att dela när du behöver det.</p></div>
           </details>
           <details class="qa" data-cat="app">
-            <summary><span class="qa__num">04</span><span class="qa__q">How do I book a vet appointment?</span><span class="qa__ic" aria-hidden="true"></span></summary>
-            <div class="qa__a"><p>In the app, choose a clinic from our network, check the available slots and book in just a few taps. You’ll get a reminder before the visit.</p></div>
+            <summary><span class="qa__num">04</span><span class="qa__q" data-i18n="faq.q04">Hur bokar jag ett veterinärbesök?</span><span class="qa__ic" aria-hidden="true"></span></summary>
+            <div class="qa__a"><p data-i18n="faq.a04">I appen väljer du en klinik från vårt nätverk, kollar lediga tider och bokar med bara några tryck. Du får en påminnelse innan besöket.</p></div>
           </details>
           <details class="qa" data-cat="app">
-            <summary><span class="qa__num">05</span><span class="qa__q">Can I use the app for more than one pet?</span><span class="qa__ic" aria-hidden="true"></span></summary>
-            <div class="qa__a"><p>Yes. Create a profile for every pet you have and keep their complete records in one place — switching between them takes a single tap.</p></div>
+            <summary><span class="qa__num">05</span><span class="qa__q" data-i18n="faq.q05">Kan jag använda appen för mer än ett djur?</span><span class="qa__ic" aria-hidden="true"></span></summary>
+            <div class="qa__a"><p data-i18n="faq.a05">Ja. Skapa en profil för varje djur du har och håll alla journaler på ett ställe — att byta mellan dem kräver bara ett tryck.</p></div>
           </details>
           <details class="qa" data-cat="vets">
-            <summary><span class="qa__num">06</span><span class="qa__q">What if my vet isn’t on Petzo yet?</span><span class="qa__ic" aria-hidden="true"></span></summary>
-            <div class="qa__a"><p>Your vet can help you create a profile and activate their clinic through Petzo VMS. You can also suggest a clinic to us and our team will do its best to bring them into the network.</p></div>
+            <summary><span class="qa__num">06</span><span class="qa__q" data-i18n="faq.q06">Vad händer om min veterinär inte finns på Petzo än?</span><span class="qa__ic" aria-hidden="true"></span></summary>
+            <div class="qa__a"><p data-i18n="faq.a06">Din veterinär kan hjälpa dig att skapa en profil och aktivera sin klinik via Petzo VMS. Du kan även föreslå en klinik till oss och vårt team gör sitt bästa för att ta med dem i nätverket.</p></div>
           </details>
           <details class="qa" data-cat="vets">
-            <summary><span class="qa__num">07</span><span class="qa__q">Can my clinic use Petzo VMS?</span><span class="qa__ic" aria-hidden="true"></span></summary>
-            <div class="qa__a"><p>Yes. Petzo VMS is built for veterinary practices, with support for multiple users and locations. Book a demo and our team will walk you through it.</p></div>
+            <summary><span class="qa__num">07</span><span class="qa__q" data-i18n="faq.q07">Kan min klinik använda Petzo VMS?</span><span class="qa__ic" aria-hidden="true"></span></summary>
+            <div class="qa__a"><p data-i18n="faq.a07">Ja. Petzo VMS är byggt för veterinärpraktiker, med stöd för flera användare och platser. Boka en demo så visar vårt team dig allt.</p></div>
           </details>
           <details class="qa" data-cat="help">
-            <summary><span class="qa__num">08</span><span class="qa__q">Is my data safe?</span><span class="qa__ic" aria-hidden="true"></span></summary>
-            <div class="qa__a"><p>Absolutely. Your privacy and data security are our priority, and we use advanced protection methods to keep all data safe.</p></div>
+            <summary><span class="qa__num">08</span><span class="qa__q" data-i18n="faq.q08">Är mina data säkra?</span><span class="qa__ic" aria-hidden="true"></span></summary>
+            <div class="qa__a"><p data-i18n="faq.a08">Absolut. Din integritet och datasäkerhet är vår prioritet, och vi använder avancerade skyddsmetoder för att hålla all data säker.</p></div>
           </details>
           <details class="qa" data-cat="help">
-            <summary><span class="qa__num">09</span><span class="qa__q">How do I contact support?</span><span class="qa__ic" aria-hidden="true"></span></summary>
-            <div class="qa__a"><p>Email us or use “Contact support” inside the app. For technical issues, leave your phone number in the contact form and the Petzo support team will call you back as soon as possible.</p></div>
+            <summary><span class="qa__num">09</span><span class="qa__q" data-i18n="faq.q09">Hur kontaktar jag supporten?</span><span class="qa__ic" aria-hidden="true"></span></summary>
+            <div class="qa__a"><p data-i18n="faq.a09">Mejla oss eller använd "Kontakta support" i appen. Vid tekniska problem, lämna ditt telefonnummer i kontaktformuläret så ringer Petzos supportteam tillbaka så snart som möjligt.</p></div>
           </details>
         </div>
       </section>
@@ -709,14 +732,14 @@
           <canvas class="cta__canvas" data-cta-canvas aria-hidden="true"></canvas>
           <div class="cta__content">
             <svg class="cta__paw"><use href="#i-paw" /></svg>
-            <h2 class="cta__title" data-reveal>Start your pet’s journey to a healthier, happier life.</h2>
-            <p class="cta__sub" data-reveal>Free on iOS and Android. Set up in a minute.</p>
+            <h2 class="cta__title" data-reveal data-i18n="cta.title">Starta ditt djurs resa mot ett friskare, lyckligare liv.</h2>
+            <p class="cta__sub" data-reveal data-i18n="cta.sub">Gratis på iOS och Android. Klart på en minut.</p>
             <div class="hero__ctas cta__btns" data-reveal>
               <a class="store store--light" href="https://apps.apple.com/hr/app/petzo-ultimate-pet-care/id6738798585" target="_blank" rel="noopener" data-magnetic>
-                <svg><use href="#i-apple" /></svg><span><small>Download on the</small>App Store</span>
+                <svg><use href="#i-apple" /></svg><span data-i18n="cta.appstore"><small>Ladda ner på</small>App Store</span>
               </a>
               <a class="store store--light" href="https://play.google.com/store/apps/details?id=com.petzo.venturion" target="_blank" rel="noopener" data-magnetic>
-                <svg><use href="#i-play-store" /></svg><span><small>Get it on</small>Google Play</span>
+                <svg><use href="#i-play-store" /></svg><span data-i18n="cta.gplay"><small>Hämta på</small>Google Play</span>
               </a>
             </div>
           </div>
@@ -726,20 +749,20 @@
       <!-- CONTACT -->
       <section class="contact container" id="contact">
         <div class="contact__copy">
-          <p class="eyebrow"><span class="eyebrow__dot"></span> Contact</p>
-          <h2 class="h2" data-reveal>Let’s talk.</h2>
-          <p>Questions about the app, or want to bring Petzo VMS to your clinic? Send us a message and we’ll get back to you.</p>
+          <p class="eyebrow" data-i18n="contact.eyebrow"><span class="eyebrow__dot"></span> Kontakt</p>
+          <h2 class="h2" data-reveal data-i18n="contact.title">Låt oss prata.</h2>
+          <p data-i18n="contact.desc">Frågor om appen, eller vill du använda Petzo VMS på din klinik? Skicka ett meddelande så hör vi av oss.</p>
           <div class="contact__meta">
             <a href="mailto:petzoapp@d4igroup.se"><svg><use href="#i-chat" /></svg> petzoapp@d4igroup.se</a>
           </div>
-          <p class="contact__note">Need technical support? Leave your phone number in the form and the Petzo support team will call you back.</p>
+          <p class="contact__note" data-i18n="contact.note">Behöver du teknisk support? Lämna ditt telefonnummer i formuläret så ringer Petzos supportteam tillbaka.</p>
         </div>
         <form class="form" data-form novalidate>
-<label class="field"><input name="name" required placeholder=" " autocomplete="name" /><span>Full name *</span></label>
-          <label class="field"><input name="email" type="email" required placeholder=" " autocomplete="email" /><span>Email *</span></label>
-          <label class="field"><input name="phone" type="tel" placeholder=" " autocomplete="tel" /><span>Phone number</span></label>
-          <label class="field field--area"><textarea name="message" rows="4" required placeholder=" "></textarea><span>Message *</span></label>
-          <button class="btn btn--primary btn--block" type="submit"><span>Send message</span><svg><use href="#i-arrow" /></svg></button>
+<label class="field"><input name="name" required placeholder=" " autocomplete="name" /><span data-i18n="form.name">Fullständigt namn *</span></label>
+          <label class="field"><input name="email" type="email" required placeholder=" " autocomplete="email" /><span data-i18n="form.email">E-post *</span></label>
+          <label class="field"><input name="phone" type="tel" placeholder=" " autocomplete="tel" /><span data-i18n="form.phone">Telefonnummer</span></label>
+          <label class="field field--area"><textarea name="message" rows="4" required placeholder=" "></textarea><span data-i18n="form.message">Meddelande *</span></label>
+          <button class="btn btn--primary btn--block" type="submit"><span data-i18n="form.submit">Skicka meddelande</span><svg><use href="#i-arrow" /></svg></button>
           <p class="form__status" data-form-status role="status"></p>
         </form>
       </section>
@@ -750,10 +773,10 @@
         <div class="footer__top">
           <div class="footer__brand">
             <span class="logo-mark logo-mark--lg" role="img" aria-label="petzo"></span>
-            <p>Everything your pet needs, in one place.</p>
+            <p data-i18n="footer.tagline">Allt ditt djur behöver, på ett ställe.</p>
           </div>
           <div class="footer__cols">
-            <div><a href="#features">Features</a><a href="#how">How it works</a><a href="#integrations">Integrations</a><a href="#faq">FAQ</a><a href="#contact">Contact</a></div>
+            <div><a href="#features" data-i18n="footer.features">Funktioner</a><a href="#how" data-i18n="footer.how">Så fungerar det</a><a href="#integrations" data-i18n="footer.integrations">Integrationer</a><a href="#faq">FAQ</a><a href="#contact" data-i18n="footer.contact">Kontakt</a></div>
           </div>
         </div>
         <div class="footer__word" aria-hidden="true">
@@ -766,7 +789,7 @@
           </svg>
         </div>
         <div class="footer__bottom">
-          <span>© <span data-year>2026</span> D4i Group. All rights reserved.</span>
+          <span data-i18n="footer.copy">© <span data-year>2026</span> D4i Group. Alla rättigheter förbehållna.</span>
         </div>
       </div>
     </footer>
@@ -783,7 +806,7 @@
     <!-- Welcome popup -->
     <div class="welcome" data-welcome aria-hidden="true">
       <div class="welcome__backdrop" data-welcome-close></div>
-      <div class="welcome__card" role="dialog" aria-modal="true" aria-label="Coming soon to Sweden">
+      <div class="welcome__card" role="dialog" aria-modal="true" aria-label="Snart i Sverige">
         <button class="modal__close" data-welcome-close aria-label="Close popup"><svg><use href="#i-plus" /></svg></button>
         <div class="welcome__flag" aria-hidden="true">
           <svg viewBox="0 0 64 64" width="100%" height="100%">
@@ -795,10 +818,10 @@
             </g>
           </svg>
         </div>
-        <p class="eyebrow eyebrow--dark welcome__eyebrow"><span class="eyebrow__dot"></span> New market</p>
-        <h2 class="welcome__title">Coming soon to <span class="grad-text">Sweden</span></h2>
-        <p class="welcome__sub">Petzo is expanding to Sweden — bringing connected pet care, vet booking and digital health records to pet owners across the country.</p>
-        <button class="btn btn--orange welcome__cta" data-welcome-close data-welcome-explore><span>Explore Petzo</span><svg><use href="#i-arrow" /></svg></button>
+        <p class="eyebrow eyebrow--dark welcome__eyebrow" data-i18n="welcome.eyebrow"><span class="eyebrow__dot"></span> Ny marknad</p>
+        <h2 class="welcome__title" data-i18n="welcome.title">Snart i <span class="grad-text">Sverige</span></h2>
+        <p class="welcome__sub" data-i18n="welcome.sub">Petzo expanderar till Sverige — med uppkopplad djuromsorg, veterinärbokning och digitala hälsojournaler för djurägare i hela landet.</p>
+        <button class="btn btn--orange welcome__cta" data-welcome-close data-welcome-explore><span data-i18n="welcome.cta">Utforska Petzo</span><svg><use href="#i-arrow" /></svg></button>
         <svg class="welcome__paw" aria-hidden="true"><use href="#i-paw" /></svg>
       </div>
     </div>
