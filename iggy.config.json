@@ -1,0 +1,13 @@
+{
+  "$schema": "./schemas/iggy.config.schema.json",
+  "mode": "prototype",
+  "language": "node",
+  "enforcement": "strict",
+  "sourceDirs": ["src"],
+  "commands": {
+    "dev": "npm run dev",
+    "build": "npm run build",
+    "test": null,
+    "lint": null
+  }
+}

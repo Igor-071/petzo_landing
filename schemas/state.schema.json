@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Iggy workflow state (.vibe/state.json)",
+  "description": "What Claude proposes. The user's confirmations live in .vibe/approvals.json, which only hooks/record-approval.mjs writes.",
+  "type": "object",
+  "required": [
+    "version",
+    "active",
+    "history"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "enum": [
+        4
+      ]
+    },
+    "active": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "feature",
+        "tier",
+        "phase",
+        "startedAt"
+      ],
+      "properties": {
+        "runId": {
+          "type": "string",
+          "description": "Unique per workflow run, so a restarted feature never inherits old approvals"
+        },
+        "feature": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._-]+$"
+        },
+        "tier": {
+          "type": "string",
+          "enum": [
+            "MINIMAL",
+            "LIGHT",
+            "STANDARD",
+            "FULL",
+            "EMERGENCY"
+          ]
+        },
+        "phase": {
+          "type": "string",
+          "enum": [
+            "tier_proposed",
+            "scout",
+            "spec",
+            "test_plan",
+            "implement",
+            "review",
+            "present",
+            "docs"
+          ]
+        },
+        "specPath": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "startedAt": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "history": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "required": [
+          "feature",
+          "tier",
+          "result",
+          "endedAt"
+        ],
+        "properties": {
+          "feature": {
+            "type": "string"
+          },
+          "tier": {
+            "type": "string",
+            "enum": [
+              "MINIMAL",
+              "LIGHT",
+              "STANDARD",
+              "FULL",
+              "EMERGENCY"
+            ]
+          },
+          "result": {
+            "type": "string",
+            "enum": [
+              "completed",
+              "aborted"
+            ]
+          },
+          "endedAt": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

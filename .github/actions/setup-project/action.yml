@@ -1,0 +1,123 @@
+name: Set up project for quality gates
+description: Selects the config, installs the language toolchain and the project's dependencies, and optionally browsers.
+
+inputs:
+  project-dir:
+    description: Project directory, relative to the repository root
+    default: "."
+  config-file:
+    description: Config to use instead of iggy.config.json (copied over it). Used by the template's fixtures.
+    default: ""
+  language:
+    description: node, python or go (from the plan job)
+    required: true
+  browsers:
+    description: "Playwright browsers to install: none, chromium or all"
+    default: none
+
+runs:
+  using: composite
+  steps:
+    # Inputs reach scripts through env, never through ${{ }} in run:, so a
+    # crafted value can't inject shell code.
+    - name: Select config
+      if: inputs.config-file != ''
+      shell: bash
+      env:
+        PROJECT: ${{ inputs.project-dir }}
+        CONFIG_FILE: ${{ inputs.config-file }}
+      run: cp "$PROJECT/$CONFIG_FILE" "$PROJECT/iggy.config.json"
+
+    # Node runs the Iggy scripts, so every language gets it.
+    - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      with:
+        node-version: 22
+
+    - name: Install Node dependencies
+      if: inputs.language == 'node'
+      shell: bash
+      working-directory: ${{ inputs.project-dir }}
+      run: |
+        if [ ! -f package.json ]; then echo "No package.json, nothing to install"; exit 0; fi
+        if [ -f pnpm-lock.yaml ]; then
+          corepack enable
+          pnpm install --frozen-lockfile
+        elif [ -f yarn.lock ]; then
+          corepack enable
+          if [ -f .yarnrc.yml ]; then yarn install --immutable; else yarn install --frozen-lockfile; fi
+        elif [ -f bun.lock ] || [ -f bun.lockb ]; then
+          npm install -g bun
+          bun install --frozen-lockfile
+        elif [ -f package-lock.json ]; then
+          npm ci
+        else
+          echo "::warning::No lockfile found. Commit package-lock.json, pnpm-lock.yaml or yarn.lock for reproducible builds."
+          npm install
+        fi
+
+    - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+      if: inputs.language == 'python'
+      with:
+        python-version: "3.12"
+
+    # uv and poetry projects get their own virtualenv on PATH; others install
+    # into the runner's Python. The gate tools go into the same environment.
+    - name: Install Python tools and dependencies
+      if: inputs.language == 'python'
+      shell: bash
+      working-directory: ${{ inputs.project-dir }}
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f uv.lock ]; then
+          python -m pip install uv
+          uv sync --frozen --all-groups
+          echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+          uv pip install --python .venv/bin/python ruff pytest pytest-cov pip-audit
+        elif [ -f poetry.lock ]; then
+          python -m pip install poetry
+          poetry config virtualenvs.in-project true
+          poetry install --no-interaction
+          echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+          .venv/bin/python -m pip install ruff pytest pytest-cov pip-audit
+        else
+          python -m pip install ruff pytest pytest-cov pip-audit
+          if [ -f requirements.txt ]; then python -m pip install -r requirements.txt; fi
+          if [ -f requirements-dev.txt ]; then python -m pip install -r requirements-dev.txt; fi
+          if [ -f setup.py ] || grep -q '^\[build-system\]' pyproject.toml 2>/dev/null; then
+            python -m pip install -e .
+          elif [ -f pyproject.toml ]; then
+            echo "pyproject.toml has no [build-system]; installing requirements files only"
+          fi
+        fi
+
+    - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+      if: inputs.language == 'go'
+      with:
+        go-version-file: ${{ inputs.project-dir }}/go.mod
+        # Latest patch of that Go version, so stdlib fixes are in.
+        check-latest: true
+
+    - name: Install Go tools
+      if: inputs.language == 'go'
+      shell: bash
+      # setup-go pins GOTOOLCHAIN=local to the project's Go, but the tools may
+      # need a newer Go to build. auto lets go install fetch it, for the tools
+      # only. Versions are pinned so a tool release can't break CI overnight.
+      env:
+        GOTOOLCHAIN: auto
+      run: |
+        go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.5.0
+        go install golang.org/x/vuln/cmd/govulncheck@v1.8.0
+
+    - name: Install Playwright browsers
+      if: inputs.browsers != 'none'
+      shell: bash
+      working-directory: ${{ inputs.project-dir }}
+      env:
+        BROWSERS: ${{ inputs.browsers }}
+      run: |
+        if [ "$BROWSERS" = "all" ]; then
+          npx playwright install --with-deps
+        else
+          npx playwright install --with-deps chromium
+        fi

@@ -20,3 +20,6 @@ npm-debug.log*
 
 # personal Claude Code settings
 .claude/settings.local.json
+
+# Iggy workflow state
+.vibe/

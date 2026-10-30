@@ -1,0 +1,14 @@
+# Keeps the SHA-pinned GitHub Actions current (Dependabot updates the SHA and
+# the version comment together). The cooldown waits a week before proposing a
+# new release, so a compromised version has time to be caught and pulled.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directories: ["/", "/.github/actions/*"]
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      actions:
+        patterns: ["*"]

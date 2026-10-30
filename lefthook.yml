@@ -1,0 +1,32 @@
+# Git hooks, the backstop that works with or without Claude.
+# Install once per clone:  lefthook install
+#   (brew install lefthook, or npm i -D lefthook && npx lefthook install)
+#
+# Lint, typecheck and tests run the commands from iggy.config.json, the same
+# ones vibe.mjs and CI run (node scripts/vibe.mjs config shows them).
+# A command that isn't configured is skipped with a message. Hooks run at the repo
+# root, so CLAUDE_PROJECT_DIR is pinned there.
+
+pre-commit:
+  parallel: true
+  commands:
+    secrets:
+      run: |
+        if ! command -v gitleaks >/dev/null 2>&1; then
+          echo "gitleaks not installed, skipping secret scan (brew install gitleaks)"
+          exit 0
+        fi
+        gitleaks git --pre-commit --staged --redact --no-banner
+    lint:
+      run: CLAUDE_PROJECT_DIR="$PWD" node scripts/vibe.mjs run lint
+    typecheck:
+      run: CLAUDE_PROJECT_DIR="$PWD" node scripts/vibe.mjs run typecheck
+
+pre-push:
+  commands:
+    test:
+      run: CLAUDE_PROJECT_DIR="$PWD" node scripts/vibe.mjs run test
+    template:
+      run: |
+        [ -x scripts/validate-template.sh ] || exit 0
+        scripts/validate-template.sh

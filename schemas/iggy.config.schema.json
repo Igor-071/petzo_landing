@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Iggy project config (iggy.config.json)",
+  "description": "One file that tells the hooks, the skills and CI what kind of project this is. Fields left out get the defaults for the project's language.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "mode": {
+      "type": "string",
+      "enum": ["prototype", "production"],
+      "description": "prototype: fast CI, security scans warn. production: every gate blocks."
+    },
+    "language": { "type": "string", "enum": ["node", "python", "go"] },
+    "enforcement": {
+      "type": "string",
+      "enum": ["strict", "standard-only"],
+      "description": "strict: every source edit needs a confirmed tier. standard-only: only confirmed STANDARD/FULL work is gated."
+    },
+    "sourceDirs": { "type": "array", "items": { "type": "string" } },
+    "commands": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Set a command to null to turn it off.",
+      "properties": {
+        "dev": { "type": ["string", "null"] },
+        "test": { "type": ["string", "null"] },
+        "coverage": { "type": ["string", "null"] },
+        "lint": { "type": ["string", "null"] },
+        "lintFix": { "type": ["string", "null"] },
+        "typecheck": { "type": ["string", "null"] },
+        "build": { "type": ["string", "null"] },
+        "e2e": { "type": ["string", "null"] },
+        "audit": { "type": ["string", "null"] }
+      }
+    },
+    "web": {
+      "type": ["object", "null"],
+      "description": "Turns on the browser gates: E2E, responsive, accessibility and Lighthouse.",
+      "additionalProperties": false,
+      "required": ["startCommand", "url"],
+      "properties": {
+        "startCommand": { "type": "string" },
+        "url": { "type": "string" },
+        "routes": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "coverageReport": {
+      "type": "string",
+      "description": "Path to the coverage report. Detected automatically when left out: coverage/lcov.info, coverage.xml or cover.out."
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "changedLineCoverage": { "type": "number", "minimum": 0, "maximum": 100 },
+        "lighthousePerformance": { "type": "number", "minimum": 0, "maximum": 100 }
+      }
+    }
+  }
+}

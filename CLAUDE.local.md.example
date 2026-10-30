@@ -1,0 +1,58 @@
+# CLAUDE.local.md — Personal Preferences
+
+> Claude reads this file **after** CLAUDE.md. Your preferences here override project defaults.
+> Copy this file to `CLAUDE.local.md` (gitignored) and customize for your setup.
+
+## Development Style
+
+- I prefer TypeScript over JavaScript
+- Use functional components, not class components
+- When in doubt, ask me — don't guess
+- I like concise commit messages focused on "why"
+
+## Tier Adjustments
+
+> Override the auto-detection if it consistently gets your intent wrong.
+
+- For auth-related changes, always use STANDARD (even if they look LIGHT)
+- I rarely need FULL tier — only suggest it for security or migration work
+- For styling changes, MINIMAL is fine even if multiple files are involved
+
+## Language & Framework Preferences
+
+- Use `date-fns` for date formatting, not `moment`
+- Prefer `zod` for validation
+- Use named exports, not default exports
+- Prefer `const` arrow functions for components
+
+## Workflow Shortcuts
+
+> Custom phrases Claude should recognize during workflows.
+
+- "ship it" = commit + push + create PR
+- "lgtm" = approved, proceed to next phase
+- "nuke it" = discard current approach, start fresh
+- "close it out" = run /retro then commit
+
+## Testing Preferences
+
+- I prefer `vitest` over `jest`
+- Use `@testing-library/react` for component tests
+- Mock at boundaries only — no mocking internal functions
+- I prefer integration tests for UI, unit tests for logic
+
+## MCP Server Notes
+
+> Notes about your local MCP setup.
+
+- memory server: running (graph persists at .claude/memory.json)
+- context7: use for all framework docs before writing code
+- playwright: available for visual verification
+
+## Environment Notes
+
+> Anything specific to your machine that Claude should know.
+
+- Node 20, npm 10
+- macOS / VS Code
+- Local dev server runs on port 3000

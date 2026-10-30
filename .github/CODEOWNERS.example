@@ -1,0 +1,14 @@
+# Copy to .github/CODEOWNERS and replace the handles. With branch protection
+# on (scripts/setup-branch-protection.sh), a code owner must approve every PR
+# that touches their paths.
+#
+# Last match wins.
+
+*                       @your-org/developers
+
+# Workflow, CI and security rules: changes need a lead.
+/.claude/               @your-org/leads
+/.github/               @your-org/leads
+/hooks/                 @your-org/leads
+/iggy.config.json       @your-org/leads
+/knowledge/SECURITY_CHECKLIST.md @your-org/security

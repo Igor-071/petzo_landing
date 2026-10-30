@@ -1,0 +1,349 @@
+# Quality Gates
+#
+# One workflow for every project made from the Iggy template. A plan job reads
+# iggy.config.json (mode, language, commands, web) through scripts/ci-plan.mjs
+# and every other job runs only if the plan enables it:
+#
+#   checks       lint, typecheck, tests                      always blocking
+#   coverage     coverage on the PR's changed lines          blocks in production
+#   e2e, a11y    Playwright + axe at the gate breakpoints    blocks in production
+#   lighthouse   performance budget                          production only
+#   audit        npm audit / pip-audit / govulncheck         blocks in production
+#   sast         Semgrep                                     blocks in production
+#   build        build command                               production only
+#   secrets      gitleaks                                    always blocking
+#
+# In prototype mode, non-blocking gates still run. A failure shows as a
+# warning and the job stays green (scripts/ci-gate.sh, GATE_BLOCKING).
+# The gate definitions themselves live in .claude/skills/review/gates.md.
+#
+# Also callable (workflow_call) with a project-dir, which is how the template
+# tests these gates against its fixtures (see template-fixtures.yml).
+
+name: Quality Gates
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_call:
+    inputs:
+      project-dir:
+        type: string
+        default: "."
+      config-file:
+        description: Config to use instead of iggy.config.json
+        type: string
+        default: ""
+      expect-failure:
+        description: A gate that must fail (template fixtures only)
+        type: string
+        default: ""
+      expect-output:
+        description: Text the expected failure must print
+        type: string
+        default: ""
+      artifact-prefix:
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+# A newer push cancels the run it supersedes. Fixture runs differ by
+# project-dir and config-file, so they don't cancel each other.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.project-dir || '.' }}-${{ inputs.config-file || 'default' }}
+  cancel-in-progress: true
+
+env:
+  PROJECT_DIR: ${{ inputs.project-dir || '.' }}
+  CLAUDE_PROJECT_DIR: ${{ github.workspace }}/${{ inputs.project-dir || '.' }}
+  EXPECT_FAILURE: ${{ inputs.expect-failure || '' }}
+  EXPECT_OUTPUT: ${{ inputs.expect-output || '' }}
+  ARTIFACT_PREFIX: ${{ inputs.artifact-prefix || '' }}
+  CONFIG_FILE: ${{ inputs.config-file || '' }}
+
+jobs:
+  plan:
+    name: Plan
+    runs-on: ubuntu-latest
+    outputs:
+      plan: ${{ steps.plan.outputs.plan }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+
+      - name: Select config
+        if: inputs.config-file != ''
+        run: cp "$PROJECT_DIR/$CONFIG_FILE" "$PROJECT_DIR/iggy.config.json"
+
+      - name: Plan the gates
+        id: plan
+        run: node scripts/ci-plan.mjs --github-output
+
+      - name: Check branch protection
+        if: fromJSON(steps.plan.outputs.plan).mode == 'production' && github.event_name == 'pull_request' && env.PROJECT_DIR == '.'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          if ! gh api "repos/$REPOSITORY/branches/$BASE_REF/protection" >/dev/null 2>&1; then
+            echo "::warning::Production mode, but branch protection on $BASE_REF couldn't be confirmed (it's off, or this token can't read it). Run scripts/setup-branch-protection.sh as a repo admin."
+          fi
+
+  secrets:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: gitleaks
+        run: |
+          if [ "$PROJECT_DIR" = "." ]; then
+            docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:v8.30.1 git /repo --redact --verbose --exit-code 1
+          else
+            docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:v8.30.1 dir "/repo/$PROJECT_DIR" --redact --verbose --exit-code 1
+          fi
+
+  template-selftest:
+    name: Template self-test
+    if: inputs.project-dir == '' || inputs.project-dir == '.'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Check for template scripts
+        id: check
+        run: |
+          if [ -x scripts/validate-template.sh ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "scripts/validate-template.sh not found, skipping the template self-test"
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        if: steps.check.outputs.present == 'true'
+        with:
+          node-version: 22
+
+      - name: Install bats and lefthook
+        if: steps.check.outputs.present == 'true'
+        run: npm install -g bats@1 lefthook@2
+
+      - name: Validate template
+        if: steps.check.outputs.present == 'true'
+        run: scripts/validate-template.sh
+
+      - name: Hook and script tests
+        if: steps.check.outputs.present == 'true'
+        run: bats --recursive tests/
+
+  checks:
+    name: Lint, types, tests
+    needs: plan
+    if: fromJSON(needs.plan.outputs.plan).gates.lint.enabled || fromJSON(needs.plan.outputs.plan).gates.typecheck.enabled || fromJSON(needs.plan.outputs.plan).gates.test.enabled
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./.github/actions/setup-project
+        with:
+          project-dir: ${{ env.PROJECT_DIR }}
+          config-file: ${{ inputs.config-file }}
+          language: ${{ fromJSON(needs.plan.outputs.plan).language }}
+
+      - name: Lint
+        if: fromJSON(needs.plan.outputs.plan).gates.lint.enabled
+        run: scripts/ci-gate.sh lint node scripts/vibe.mjs run lint
+
+      - name: Type check
+        if: fromJSON(needs.plan.outputs.plan).gates.typecheck.enabled
+        run: scripts/ci-gate.sh typecheck node scripts/vibe.mjs run typecheck
+
+      - name: Tests
+        if: fromJSON(needs.plan.outputs.plan).gates.test.enabled
+        run: scripts/ci-gate.sh test node scripts/vibe.mjs run test
+
+  coverage:
+    name: Coverage on changed lines
+    needs: plan
+    if: fromJSON(needs.plan.outputs.plan).gates.coverage.enabled
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/setup-project
+        with:
+          project-dir: ${{ env.PROJECT_DIR }}
+          config-file: ${{ inputs.config-file }}
+          language: ${{ fromJSON(needs.plan.outputs.plan).language }}
+
+      - name: Run tests with coverage
+        run: node scripts/vibe.mjs run coverage
+
+      - name: Changed-line coverage
+        env:
+          GATE_BLOCKING: ${{ fromJSON(needs.plan.outputs.plan).gates.coverage.blocking }}
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_REF: ${{ github.base_ref }}
+          # The commit before a push; all zeros on a branch's first push.
+          PUSH_BEFORE: ${{ github.event.before }}
+        run: |
+          if [ "$EVENT_NAME" = "pull_request" ]; then base="origin/$BASE_REF"; else base="${PUSH_BEFORE:-0000000000000000000000000000000000000000}"; fi
+          scripts/ci-gate.sh coverage node scripts/coverage-gate.mjs --base "$base"
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: ${{ env.ARTIFACT_PREFIX }}coverage
+          path: |
+            ${{ env.PROJECT_DIR }}/coverage/
+            ${{ env.PROJECT_DIR }}/coverage.xml
+            ${{ env.PROJECT_DIR }}/cover.out
+          if-no-files-found: ignore
+
+  e2e:
+    name: E2E and responsive
+    needs: plan
+    if: fromJSON(needs.plan.outputs.plan).gates.e2e.enabled
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./.github/actions/setup-project
+        with:
+          project-dir: ${{ env.PROJECT_DIR }}
+          config-file: ${{ inputs.config-file }}
+          language: node
+          # Production adds Firefox and WebKit (gate 8, cross-browser).
+          browsers: ${{ fromJSON(needs.plan.outputs.plan).mode == 'production' && 'all' || 'chromium' }}
+
+      - name: Build the app
+        run: node scripts/vibe.mjs run build
+
+      - name: Playwright (E2E, responsive, cross-browser)
+        env:
+          GATE_BLOCKING: ${{ fromJSON(needs.plan.outputs.plan).gates.e2e.blocking }}
+        run: scripts/ci-gate.sh e2e node scripts/vibe.mjs run e2e --grep-invert @a11y
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: ${{ env.ARTIFACT_PREFIX }}playwright-e2e
+          path: ${{ env.PROJECT_DIR }}/playwright-report/
+          if-no-files-found: ignore
+
+  a11y:
+    name: Accessibility
+    needs: plan
+    if: fromJSON(needs.plan.outputs.plan).gates.a11y.enabled
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./.github/actions/setup-project
+        with:
+          project-dir: ${{ env.PROJECT_DIR }}
+          config-file: ${{ inputs.config-file }}
+          language: node
+          browsers: chromium
+
+      - name: Build the app
+        run: node scripts/vibe.mjs run build
+
+      - name: axe-core on every route
+        env:
+          GATE_BLOCKING: ${{ fromJSON(needs.plan.outputs.plan).gates.a11y.blocking }}
+        run: scripts/ci-gate.sh a11y node scripts/vibe.mjs run e2e --grep @a11y --project=chromium
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: ${{ env.ARTIFACT_PREFIX }}playwright-a11y
+          path: ${{ env.PROJECT_DIR }}/playwright-report/
+          if-no-files-found: ignore
+
+  lighthouse:
+    name: Performance (Lighthouse)
+    needs: plan
+    if: fromJSON(needs.plan.outputs.plan).gates.lighthouse.enabled
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./.github/actions/setup-project
+        with:
+          project-dir: ${{ env.PROJECT_DIR }}
+          config-file: ${{ inputs.config-file }}
+          language: node
+
+      - name: Build the app
+        run: node scripts/vibe.mjs run build
+
+      - name: Lighthouse CI
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: '"$GITHUB_WORKSPACE/scripts/ci-gate.sh" lighthouse npx --yes @lhci/cli@0.15.1 autorun --config=lighthouserc.cjs'
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: ${{ env.ARTIFACT_PREFIX }}lighthouse
+          path: ${{ env.PROJECT_DIR }}/lighthouse-report/
+          if-no-files-found: ignore
+
+  audit:
+    name: Dependency audit
+    needs: plan
+    if: fromJSON(needs.plan.outputs.plan).gates.audit.enabled
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./.github/actions/setup-project
+        with:
+          project-dir: ${{ env.PROJECT_DIR }}
+          config-file: ${{ inputs.config-file }}
+          language: ${{ fromJSON(needs.plan.outputs.plan).language }}
+
+      - name: Audit dependencies
+        env:
+          GATE_BLOCKING: ${{ fromJSON(needs.plan.outputs.plan).gates.audit.blocking }}
+        run: scripts/ci-gate.sh audit node scripts/vibe.mjs run audit
+
+  sast:
+    name: Static analysis (Semgrep)
+    needs: plan
+    if: fromJSON(needs.plan.outputs.plan).gates.sast.enabled
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Semgrep
+        env:
+          GATE_BLOCKING: ${{ fromJSON(needs.plan.outputs.plan).gates.sast.blocking }}
+          SEMGREP_CONFIGS: ${{ fromJSON(needs.plan.outputs.plan).semgrepConfigs }}
+        run: |
+          # shellcheck disable=SC2086  # SEMGREP_CONFIGS is a list of --config flags
+          scripts/ci-gate.sh sast docker run --rm -v "$PWD:/src" -w /src semgrep/semgrep:1.178.0 \
+            semgrep scan $SEMGREP_CONFIGS --error --metrics=off "$PROJECT_DIR"
+
+  build:
+    name: Build
+    needs: plan
+    if: fromJSON(needs.plan.outputs.plan).gates.build.enabled
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./.github/actions/setup-project
+        with:
+          project-dir: ${{ env.PROJECT_DIR }}
+          config-file: ${{ inputs.config-file }}
+          language: ${{ fromJSON(needs.plan.outputs.plan).language }}
+
+      - name: Build
+        run: scripts/ci-gate.sh build node scripts/vibe.mjs run build
