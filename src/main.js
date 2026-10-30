@@ -197,9 +197,8 @@ form.addEventListener('submit', (e) => {
     return;
   }
   const d = new FormData(form);
-  const product = d.get('product') === 'vms' ? 'Petzo VMS' : 'Petzo app';
   const body = `${d.get('message')}\n\n—\nName: ${d.get('name')}\nEmail: ${d.get('email')}\nPhone: ${d.get('phone') || '-'}`;
-  window.location.href = `mailto:info@petzoapp.com?subject=${encodeURIComponent(`Question about ${product}`)}&body=${encodeURIComponent(body)}`;
+  window.location.href = `mailto:petzoapp@d4igroup.se?subject=${encodeURIComponent('Question about Petzo')}&body=${encodeURIComponent(body)}`;
   status.textContent = 'Opening your email app…';
 });
 
