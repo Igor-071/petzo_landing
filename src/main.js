@@ -474,9 +474,8 @@ function initScrollAnimations() {
 
   gsap.from('.form', { y: 60, opacity: 0, duration: 1.3, ease: 'expo.out', scrollTrigger: { trigger: '.contact', start: 'top 80%', once: true } });
 
-  // footer wordmark
-  const word = SplitText.create('.footer__word', { type: 'chars' });
-  gsap.from(word.chars, { yPercent: 100, opacity: 0, ease: 'none', stagger: 0.05, scrollTrigger: { trigger: '.footer__word', start: 'top bottom', end: 'bottom bottom', scrub: true } });
+  // footer wordmark – reveal each SVG letter path one by one
+  gsap.from('.footer__word svg path', { yPercent: 100, opacity: 0, ease: 'none', stagger: 0.05, scrollTrigger: { trigger: '.footer__word', start: 'top bottom', end: 'bottom bottom', scrub: true } });
 
   ScrollTrigger.refresh();
 }
