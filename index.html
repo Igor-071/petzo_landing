@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Petzo — Pet care, connected</title>
+    <meta
+      name="description"
+      content="Petzo puts your pet's whole health life in one app — vet appointments, vaccinations, therapies, a digital passport and SOS alerts. Connected to clinics through Petzo VMS."
+    />
+    <meta name="theme-color" content="#623BB2" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta property="og:title" content="Petzo — Pet care, connected" />
+    <meta property="og:description" content="Everything your pet's health needs, in one place." />
+    <meta property="og:image" content="/assets/petzo-app.png" />
+  </head>
+  <body>
+    <div class="loader" aria-hidden="true">
+      <div class="loader__mark">
+        <svg viewBox="0 0 64 64" class="loader__paw"><use href="#i-paw" /></svg>
+        <span class="loader__count">0</span>
+      </div>
+    </div>
+
+    <!-- Icon sprite -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <symbol id="i-paw" viewBox="0 0 64 64">
+          <ellipse cx="32" cy="42" rx="13" ry="11" fill="currentColor" />
+          <ellipse cx="14" cy="27" rx="6" ry="7.5" fill="currentColor" transform="rotate(-18 14 27)" />
+          <ellipse cx="25" cy="16" rx="6" ry="8" fill="currentColor" transform="rotate(-6 25 16)" />
+          <ellipse cx="39" cy="16" rx="6" ry="8" fill="currentColor" transform="rotate(6 39 16)" />
+          <ellipse cx="50" cy="27" rx="6" ry="7.5" fill="currentColor" transform="rotate(18 50 27)" />
+        </symbol>
+        <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="3" /><path d="M3 9.5h18M8 2.5v4M16 2.5v4" /><path d="M8.5 15l2.2 2.2L15.5 13" /></symbol>
+        <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 5.6a5.5 5.5 0 0 0-7.8 0L12 6.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 22l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z" /><path d="M3.5 12h4l2-3 3 6 2-3h6" /></symbol>
+        <symbol id="i-sos" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l9.5 17h-19z" /><path d="M12 9.5v4.5M12 17h.01" /></symbol>
+        <symbol id="i-passport" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2.5" width="16" height="19" rx="2.5" /><circle cx="12" cy="10" r="3.2" /><path d="M8 17h8" /></symbol>
+        <symbol id="i-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5" /><path d="M2.5 20a6.5 6.5 0 0 1 13 0" /><circle cx="17.5" cy="9.5" r="2.5" /><path d="M16 14.6a5 5 0 0 1 5.5 5" /></symbol>
+        <symbol id="i-map" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.5s-7-6-7-11.5a7 7 0 0 1 14 0c0 5.5-7 11.5-7 11.5z" /><circle cx="12" cy="10" r="2.6" /></symbol>
+        <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l8 3v6c0 5-3.5 8.6-8 10-4.5-1.4-8-5-8-10v-6z" /><path d="M8.5 12l2.5 2.5 4.5-5" /></symbol>
+        <symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7.5h14l-1.2 12.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8z" /><path d="M9 10V6a3 3 0 0 1 6 0v4" /></symbol>
+        <symbol id="i-game" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="11" rx="5.5" /><path d="M7.5 10.5v4M5.5 12.5h4M15.5 11.5h.01M18 13.5h.01" /></symbol>
+        <symbol id="i-pill" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.8" y="8.2" width="18.4" height="7.6" rx="3.8" transform="rotate(-45 12 12)" /><path d="M8.6 8.6l6.8 6.8" /></symbol>
+        <symbol id="i-syringe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2.5l3.5 3.5M19.7 4.3l-4 4M14 5.5l4.5 4.5M16.2 7.8L8 16l-3.5.5.5-3.5 8.2-8.2M5 19l-2.5 2.5M9.5 9.5l2 2M7.5 11.5l2 2" /></symbol>
+        <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8.5a6 6 0 0 1 12 0c0 7 3 8.5 3 8.5H3s3-1.5 3-8.5" /><path d="M10.3 20.5a1.9 1.9 0 0 0 3.4 0" /></symbol>
+        <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5L19.5 7" /></symbol>
+        <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></symbol>
+        <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></symbol>
+        <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14" /></symbol>
+        <symbol id="i-clinic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13" /><path d="M12 9.5v6M9 12.5h6" /></symbol>
+        <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18" /><path d="M7 15l4-4 3 3 5-6" /></symbol>
+        <symbol id="i-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5v8l9 5 9-5z" /><path d="M3 8l9 5 9-5M12 13v8" /></symbol>
+        <symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5a2 2 0 0 1 2-2h4l2 2.5h8a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></symbol>
+        <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8.5 8.5 0 0 1-12.4 7.6L3 21l1.4-5A8.5 8.5 0 1 1 21 12z" /></symbol>
+        <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-1.5A4.5 4.5 0 0 1 7.5 15h5a4.5 4.5 0 0 1 4.5 4.5V21" /><circle cx="10" cy="7.5" r="4" /><path d="M17 3.6a4 4 0 0 1 0 7.8M21 21v-1.5a4.5 4.5 0 0 0-3-4.2" /></symbol>
+        <symbol id="i-sync" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 8A9 9 0 0 0 4.2 6.8L3 8M3.5 16a9 9 0 0 0 16.3 1.2L21 16" /><path d="M3 3v5h5M21 21v-5h-5" /></symbol>
+        <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="11" rx="2.5" /><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5" /></symbol>
+        <symbol id="i-apple" viewBox="0 0 24 24"><path fill="currentColor" d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2.1-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4.1zM13.9 5c.7-.9 1.2-2.1 1.1-3.3-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.2 1.1.1 2.3-.6 3-1.5z" /></symbol>
+        <symbol id="i-play-store" viewBox="0 0 24 24"><path fill="#00D7FE" d="M3.6 2.3c-.3.3-.4.7-.4 1.3v16.8c0 .5.2 1 .4 1.3l.1.1 9.4-9.4v-.2L3.7 2.2z" /><path fill="#FFCE00" d="M16.2 15.6l-3.1-3.1v-.2l3.1-3.1.1.1 3.7 2.1c1.1.6 1.1 1.6 0 2.2l-3.7 2.1z" /><path fill="#FF3A44" d="M16.3 15.5L13.1 12.3 3.6 21.7c.4.4.9.4 1.6.1l11.1-6.3" /><path fill="#00F076" d="M16.3 9.1L5.2 2.8c-.7-.4-1.2-.3-1.6.1l9.5 9.4z" /></symbol>
+      </defs>
+    </svg>
+
+    <!-- Navigation -->
+    <header class="nav" data-nav>
+      <div class="nav__inner">
+        <a href="#top" class="nav__logo" aria-label="Petzo home">
+          <span class="logo-mark" role="img" aria-label="petzo"></span>
+        </a>
+        <nav class="nav__links" aria-label="Primary">
+          <a href="#features">Features</a>
+          <a href="#how">How it works</a>
+          <a href="#integrations">Integrations</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <div class="nav__actions">
+          <a href="#contact" class="nav__ghost">Contact</a>
+          <a href="#download" class="btn btn--primary btn--sm" data-magnetic><span>Get the app</span></a>
+          <button class="nav__burger" aria-label="Open menu" aria-expanded="false" data-burger><span></span><span></span></button>
+        </div>
+      </div>
+      <div class="nav__mobile" data-mobile-menu>
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#integrations">Integrations</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- HERO -->
+      <section class="hero" data-hero>
+        <canvas class="hero__canvas" data-hero-canvas aria-hidden="true"></canvas>
+        <div class="hero__grain" aria-hidden="true"></div>
+        <div class="container hero__grid">
+          <div class="hero__copy">
+            <p class="eyebrow hero__eyebrow" data-hero-fade>
+              <span class="eyebrow__dot"></span> Pet care, connected to your vet
+            </p>
+            <h1 class="hero__title" data-split>
+              Everything your pet’s <em>health</em> needs. In one place.
+            </h1>
+            <p class="hero__lede" data-hero-fade>
+              Find a vet and book in seconds, keep every vaccine and therapy on record, and rally your neighbourhood if your pet ever goes missing.
+            </p>
+            <div class="hero__ctas" data-hero-fade>
+              <a class="store" href="https://apps.apple.com/hr/app/petzo-ultimate-pet-care/id6738798585" target="_blank" rel="noopener" data-magnetic>
+                <svg><use href="#i-apple" /></svg>
+                <span><small>Download on the</small>App Store</span>
+              </a>
+              <a class="store" href="https://play.google.com/store/apps/details?id=com.petzo.venturion" target="_blank" rel="noopener" data-magnetic>
+                <svg><use href="#i-play-store" /></svg>
+                <span><small>Get it on</small>Google Play</span>
+              </a>
+              <button class="play-btn" data-video="https://petzoapp.com/wp-content/uploads/2024/12/Petzo_Promo-Video_Final.mp4">
+                <span class="play-btn__icon"><svg><use href="#i-play" /></svg></span>
+                Watch the film
+              </button>
+            </div>
+            <ul class="hero__proof" data-hero-fade>
+              <li><svg><use href="#i-check" /></svg> Free to start</li>
+              <li><svg><use href="#i-check" /></svg> iOS &amp; Android</li>
+              <li><svg><use href="#i-check" /></svg> Every pet, one account</li>
+            </ul>
+          </div>
+
+          <div class="hero__visual" data-hero-visual>
+            <div class="phone phone--hero" data-tilt>
+              <div class="phone__frame">
+                <div class="phone__island"></div>
+                <div class="screen screen--profile">
+                  <div class="sb"><span>9:41</span><span class="sb__icons"><i></i><i></i><i></i></span></div>
+                  <div class="app-top">
+                    <span class="app-top__title">Pet profile</span>
+                    <span class="chip chip--orange">Luna ▾</span>
+                  </div>
+                  <div class="tabs"><span class="is-on">About</span><span>Health</span><span>Insurance</span></div>
+                  <div class="pet-card">
+                    <div class="avatar avatar--lg avatar--dog"><svg><use href="#i-paw" /></svg></div>
+                    <div>
+                      <strong>Luna</strong>
+                      <small>Dog · Golden Retriever</small>
+                      <span class="pill-btn"><svg><use href="#i-passport" /></svg> Passport</span>
+                    </div>
+                  </div>
+                  <div class="kv"><span>Sex</span><b>Female</b></div>
+                  <div class="kv"><span>Size</span><b>Large</b></div>
+                  <div class="kv"><span>Weight</span><b>27 kg</b></div>
+                  <div class="kv"><span>Microchip</span><b>••• 4821</b></div>
+                  <p class="screen__label">Coming up</p>
+                  <div class="list-row">
+                    <span class="list-row__ic list-row__ic--purple"><svg><use href="#i-syringe" /></svg></span>
+                    <span><b>Rabies booster</b><small>Thu, 14 Nov · 10:30</small></span>
+                  </div>
+                  <div class="list-row">
+                    <span class="list-row__ic list-row__ic--orange"><svg><use href="#i-pill" /></svg></span>
+                    <span><b>Joint supplement</b><small>Daily · 2 of 30 days</small></span>
+                  </div>
+                  <div class="tabbar"><span class="is-on"><svg><use href="#i-paw" /></svg></span><span><svg><use href="#i-map" /></svg></span><span><svg><use href="#i-bag" /></svg></span><span><svg><use href="#i-calendar" /></svg></span><span class="sos">SOS</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="float float--a" data-float="1">
+              <span class="float__ic float__ic--green"><svg><use href="#i-check" /></svg></span>
+              <span><b>Appointment confirmed</b><small>Riverside Vet · Tomorrow 09:00</small></span>
+            </div>
+            <div class="float float--b" data-float="2">
+              <span class="float__ic float__ic--purple"><svg><use href="#i-bell" /></svg></span>
+              <span><b>Vaccine due in 3 days</b><small>Luna · Rabies booster</small></span>
+            </div>
+            <div class="float float--c" data-float="3">
+              <span class="float__ic float__ic--orange"><svg><use href="#i-sync" /></svg></span>
+              <span><b>Synced from clinic</b><small>via Petzo VMS</small></span>
+            </div>
+          </div>
+        </div>
+        <a href="#features" class="hero__scroll" aria-label="Scroll to features"><span></span></a>
+      </section>
+
+      <!-- MARQUEE -->
+      <section class="marquee" aria-label="What Petzo does">
+        <div class="marquee__track" data-marquee>
+          <div class="marquee__group">
+            <span>Vet appointments</span><svg><use href="#i-paw" /></svg>
+            <span>Vaccinations</span><svg><use href="#i-paw" /></svg>
+            <span>Digital passport</span><svg><use href="#i-paw" /></svg>
+            <span>Therapy tracking</span><svg><use href="#i-paw" /></svg>
+            <span>Lost pet SOS</span><svg><use href="#i-paw" /></svg>
+            <span>Clinic map</span><svg><use href="#i-paw" /></svg>
+            <span>Pet insurance</span><svg><use href="#i-paw" /></svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- INTRO STATEMENT -->
+      <section class="statement container">
+        <p class="statement__text" data-words>
+          Petzo is more than an app. It’s your digital partner for a happier, healthier life together — because every pet deserves the best care, and every owner deserves a simple way to give it.
+        </p>
+      </section>
+
+      <!-- FEATURE STORY (pinned) -->
+      <section class="story" id="features">
+        <div class="container">
+          <div class="section-head">
+            <p class="eyebrow"><span class="eyebrow__dot"></span> Features</p>
+            <h2 class="h2" data-reveal>The whole care routine, beautifully handled.</h2>
+          </div>
+          <div class="story__grid">
+            <div class="story__steps">
+              <article class="story__step" data-step="0">
+                <span class="story__num">01</span>
+                <span class="story__ic"><svg><use href="#i-calendar" /></svg></span>
+                <h3>Book the right vet in seconds</h3>
+                <p>Browse clinics near you, see available slots and lock in an appointment — with smart reminders so you never miss a visit.</p>
+                <ul class="ticks"><li>Clinics sorted by distance</li><li>Real availability, no phone tag</li><li>Personalised reminders</li></ul>
+              </article>
+              <article class="story__step" data-step="1">
+                <span class="story__num">02</span>
+                <span class="story__ic"><svg><use href="#i-heart" /></svg></span>
+                <h3>Health records &amp; therapies, always with you</h3>
+                <p>Vaccinations, check-ups, prescriptions, vet notes and treatment plans — your pet’s complete medical history in one tidy timeline.</p>
+                <ul class="ticks"><li>Vaccines, labs and notes</li><li>Therapy plans with daily check-offs</li><li>Updates straight from your clinic</li></ul>
+              </article>
+              <article class="story__step" data-step="2">
+                <span class="story__num">03</span>
+                <span class="story__ic"><svg><use href="#i-sos" /></svg></span>
+                <h3>Lost pet? Send an SOS to the whole community</h3>
+                <p>One tap alerts Petzo users nearby with photos and details, multiplying the eyes looking out for your best friend.</p>
+                <ul class="ticks"><li>Instant neighbourhood alert</li><li>Photos, last-seen location, contact</li><li>Mark found and notify everyone</li></ul>
+              </article>
+              <article class="story__step" data-step="3">
+                <span class="story__num">04</span>
+                <span class="story__ic"><svg><use href="#i-passport" /></svg></span>
+                <h3>A digital passport that travels well</h3>
+                <p>Identity, microchip and vaccination status in a single verified card — ready to show at the clinic, the border or the boarding kennel.</p>
+                <ul class="ticks"><li>Microchip &amp; ID details</li><li>Vaccination status at a glance</li><li>Share securely with family</li></ul>
+              </article>
+            </div>
+
+            <div class="story__stage">
+              <div class="story__glow" aria-hidden="true"></div>
+              <div class="phone phone--story">
+                <div class="phone__frame">
+                  <div class="phone__island"></div>
+
+                  <!-- Screen 0: booking -->
+                  <div class="screen story__screen is-active" data-screen="0">
+                    <div class="sb"><span>9:41</span><span class="sb__icons"><i></i><i></i><i></i></span></div>
+                    <div class="app-top"><span class="app-top__title">Book a visit</span><span class="chip chip--orange">Luna ▾</span></div>
+                    <div class="banner">
+                      <div><b>Riverside Vet Clinic</b><small>0.9 km · Open until 20:00</small><span class="banner__btn">Book now</span></div>
+                      <div class="banner__paw"><svg><use href="#i-paw" /></svg></div>
+                    </div>
+                    <p class="screen__label">Thursday, 14 November</p>
+                    <div class="slots"><span>09:00</span><span class="is-on">10:30</span><span>11:15</span><span>13:00</span><span class="is-off">14:30</span><span>16:00</span></div>
+                    <p class="screen__label">Nearby clinics</p>
+                    <div class="clinic"><b>Riverside Vet Clinic</b><small>12 Elm Street · 0.9 km</small><em>★ 4.9</em></div>
+                    <div class="clinic"><b>Oakwood Animal Care</b><small>48 Park Road · 2.4 km</small><em>★ 4.8</em></div>
+                    <div class="clinic"><b>Northside Pet Hospital</b><small>5 Hill Lane · 5.9 km</small><em>★ 4.7</em></div>
+                    <div class="cta-bar">Confirm 10:30</div>
+                  </div>
+
+                  <!-- Screen 1: health -->
+                  <div class="screen story__screen" data-screen="1">
+                    <div class="sb"><span>9:41</span><span class="sb__icons"><i></i><i></i><i></i></span></div>
+                    <div class="app-top"><span class="app-top__title">Health</span><span class="chip chip--orange">Luna ▾</span></div>
+                    <div class="tabs"><span>About</span><span class="is-on">Health</span><span>Insurance</span></div>
+                    <div class="therapy">
+                      <div class="therapy__ring"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.5" /><circle cx="18" cy="18" r="15.5" class="therapy__val" /></svg><b>70%</b></div>
+                      <div><b>Antibiotic course</b><small>Day 7 of 10 · 2× daily</small><span class="mini-ok">Morning dose ✓</span></div>
+                    </div>
+                    <p class="screen__label">Timeline</p>
+                    <div class="tl">
+                      <div class="tl__item"><span class="tl__dot tl__dot--p"></span><b>Rabies vaccine</b><small>12 Mar 2026 · Riverside Vet</small></div>
+                      <div class="tl__item"><span class="tl__dot tl__dot--o"></span><b>Blood panel · normal</b><small>02 Feb 2026 · Lab results</small></div>
+                      <div class="tl__item"><span class="tl__dot tl__dot--p"></span><b>Annual check-up</b><small>15 Jan 2026 · Dr. Hadžić</small></div>
+                      <div class="tl__item"><span class="tl__dot tl__dot--g"></span><b>Deworming</b><small>04 Dec 2025 · Home</small></div>
+                    </div>
+                    <div class="tabbar"><span><svg><use href="#i-paw" /></svg></span><span><svg><use href="#i-map" /></svg></span><span><svg><use href="#i-bag" /></svg></span><span class="is-on"><svg><use href="#i-heart" /></svg></span><span class="sos">SOS</span></div>
+                  </div>
+
+                  <!-- Screen 2: SOS -->
+                  <div class="screen screen--sos story__screen" data-screen="2">
+                    <div class="sb"><span>9:41</span><span class="sb__icons"><i></i><i></i><i></i></span></div>
+                    <div class="app-top"><span class="app-top__title">SOS alert</span><span class="chip chip--red">Live</span></div>
+                    <div class="radar">
+                      <span class="radar__ring"></span><span class="radar__ring"></span><span class="radar__ring"></span>
+                      <span class="radar__pet"><svg><use href="#i-paw" /></svg></span>
+                      <span class="radar__dot" style="--x:20%;--y:30%"></span>
+                      <span class="radar__dot" style="--x:74%;--y:22%"></span>
+                      <span class="radar__dot" style="--x:66%;--y:72%"></span>
+                      <span class="radar__dot" style="--x:28%;--y:78%"></span>
+                      <span class="radar__dot" style="--x:84%;--y:50%"></span>
+                    </div>
+                    <div class="sos-card">
+                      <b>Max is missing</b>
+                      <small>Beagle · last seen near Central Park, 18:20</small>
+                      <div class="sos-card__stats"><span><b>148</b> notified</span><span><b>12</b> viewing</span></div>
+                    </div>
+                    <div class="cta-bar cta-bar--red">Share alert</div>
+                  </div>
+
+                  <!-- Screen 3: passport -->
+                  <div class="screen story__screen" data-screen="3">
+                    <div class="sb"><span>9:41</span><span class="sb__icons"><i></i><i></i><i></i></span></div>
+                    <div class="app-top"><span class="app-top__title">Pet passport</span><span class="chip chip--orange">Luna ▾</span></div>
+                    <div class="passport">
+                      <div class="passport__head"><span>PET PASSPORT</span><svg><use href="#i-paw" /></svg></div>
+                      <div class="passport__body">
+                        <div class="avatar avatar--md avatar--dog"><svg><use href="#i-paw" /></svg></div>
+                        <div><b>Luna</b><small>Golden Retriever · ♀</small><small>Born 10 Jan 2020</small></div>
+                      </div>
+                      <div class="passport__chip"><span>Microchip</span><b>977 200 008 214 821</b></div>
+                      <div class="passport__mrz">P&lt;PETZO&lt;LUNA&lt;&lt;GOLDEN&lt;RETRIEVER&lt;&lt;&lt;</div>
+                    </div>
+                    <p class="screen__label">Vaccination status</p>
+                    <div class="vax"><span>Rabies</span><b class="ok">Valid · Mar 2027</b></div>
+                    <div class="vax"><span>DHPP</span><b class="ok">Valid · Jan 2027</b></div>
+                    <div class="vax"><span>Leptospirosis</span><b class="due">Due in 3 weeks</b></div>
+                    <div class="cta-bar">Share passport</div>
+                  </div>
+                </div>
+              </div>
+              <div class="story__dots" aria-hidden="true"><span class="is-on"></span><span></span><span></span><span></span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BENTO -->
+      <section class="bento-wrap container">
+        <div class="section-head section-head--row">
+          <h2 class="h2" data-reveal>And all the little things that add up to peace of mind.</h2>
+          <p class="section-head__aside" data-reveal>Petzo grows with your household — from first adoption to the senior years.</p>
+        </div>
+        <div class="bento">
+          <article class="bento__card bento__card--wide bento__card--share" data-card>
+            <div class="bento__copy">
+              <span class="bento__ic"><svg><use href="#i-share" /></svg></span>
+              <h3>Share care with family</h3>
+              <p>Invite a partner, a sitter or grandma. Everyone sees the same profile, reminders and health data.</p>
+            </div>
+            <div class="share-vis" aria-hidden="true">
+              <span class="share-vis__av" style="--c:#623BB2">A</span>
+              <span class="share-vis__av" style="--c:#F3A93B">M</span>
+              <span class="share-vis__av" style="--c:#E86A92">S</span>
+              <span class="share-vis__av share-vis__av--plus"><svg><use href="#i-plus" /></svg></span>
+            </div>
+          </article>
+          <article class="bento__card bento__card--map" data-card>
+            <span class="bento__ic"><svg><use href="#i-map" /></svg></span>
+            <h3>Clinics on a map</h3>
+            <p>Every partner clinic, pinned and a tap away.</p>
+            <div class="map-vis" aria-hidden="true">
+              <span style="--x:22%;--y:40%"></span><span style="--x:58%;--y:28%"></span><span style="--x:72%;--y:66%"></span><span class="is-me" style="--x:42%;--y:62%"></span>
+            </div>
+          </article>
+          <article class="bento__card" data-card>
+            <span class="bento__ic"><svg><use href="#i-shield" /></svg></span>
+            <h3>Pet insurance</h3>
+            <p>Be ready for the unexpected with cover managed right inside the app.</p>
+          </article>
+          <article class="bento__card" data-card>
+            <span class="bento__ic"><svg><use href="#i-bag" /></svg></span>
+            <h3>Built-in shop</h3>
+            <p>Quality food, vitamins and supplements delivered — fast and reliably.</p>
+          </article>
+          <article class="bento__card bento__card--purple" data-card>
+            <span class="bento__ic"><svg><use href="#i-game" /></svg></span>
+            <h3>Find your perfect match</h3>
+            <p>Dreaming of a pet? A playful quiz helps you choose one that fits your lifestyle.</p>
+          </article>
+          <article class="bento__card bento__card--wide bento__card--pets" data-card>
+            <div class="bento__copy">
+              <span class="bento__ic"><svg><use href="#i-paw" /></svg></span>
+              <h3>One account, every pet</h3>
+              <p>Dogs, cats, rabbits, the lot. Switch between profiles in a single tap.</p>
+            </div>
+            <div class="pets-vis" aria-hidden="true">
+              <span class="pets-vis__p" style="--c:#F3A93B">Luna</span>
+              <span class="pets-vis__p" style="--c:#623BB2">Milo</span>
+              <span class="pets-vis__p" style="--c:#4CB59A">Kiki</span>
+              <span class="pets-vis__p" style="--c:#E86A92">Bruno</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- HOW IT WORKS -->
+      <section class="how" id="how">
+        <div class="container">
+          <div class="section-head section-head--center">
+            <p class="eyebrow"><span class="eyebrow__dot"></span> How it works</p>
+            <h2 class="h2" data-reveal>Your path to a healthier pet takes three steps.</h2>
+          </div>
+          <div class="how__track">
+            <svg class="how__line" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M40 60 C 250 -20, 400 140, 600 60 S 950 -20, 1160 60" />
+            </svg>
+            <ol class="how__steps">
+              <li class="how__step" data-how>
+                <span class="how__badge">1</span>
+                <div class="how__vis">
+                  <div class="appcard">
+                    <span class="appcard__icon"><span class="logo-mark"></span></span>
+                    <span class="appcard__meta"><b>Petzo</b><small>Ultimate pet care</small></span>
+                    <span class="appcard__get">GET</span>
+                  </div>
+                  <div class="appcard__stores">
+                    <span><svg><use href="#i-apple" /></svg> App Store</span>
+                    <span><svg><use href="#i-play-store" /></svg> Google Play</span>
+                  </div>
+                </div>
+                <h3>Download the app</h3>
+                <p>Get Petzo from the App Store or Google Play and create your profile in under a minute.</p>
+              </li>
+              <li class="how__step" data-how>
+                <span class="how__badge">2</span>
+                <div class="how__vis">
+                  <div class="regform">
+                    <div class="regform__head"><b>Add your pet</b><small>Step 2 of 6</small></div>
+                    <div class="regform__bar"><i></i></div>
+                    <div class="regform__field"><small>Name</small><b>Luna</b></div>
+                    <div class="regform__field"><small>Breed</small><b>Golden Retriever</b></div>
+                    <div class="regform__sizes"><span>Small</span><span>Medium</span><span class="is-on">Large</span></div>
+                  </div>
+                </div>
+                <h3>Register your pet</h3>
+                <p>Add name, species, breed, weight and birthday. Petzo even suggests the size from the breed.</p>
+              </li>
+              <li class="how__step" data-how>
+                <span class="how__badge">3</span>
+                <div class="how__vis">
+                  <div class="notif-stack">
+                    <div class="notif"><span class="list-row__ic list-row__ic--purple"><svg><use href="#i-syringe" /></svg></span><span><b>Rabies booster tomorrow</b><small>Riverside Vet · 10:30</small></span></div>
+                    <div class="notif"><span class="list-row__ic list-row__ic--orange"><svg><use href="#i-pill" /></svg></span><span><b>Time for Luna’s supplement</b><small>Daily · 08:00</small></span></div>
+                    <div class="notif"><span class="list-row__ic list-row__ic--green"><svg><use href="#i-check" /></svg></span><span><b>Check-up booked</b><small>Thu, 14 Nov · Oakwood</small></span></div>
+                  </div>
+                </div>
+                <h3>Track and book</h3>
+                <p>Log check-ups and therapies, book your vet and get personalised reminders that keep care on schedule.</p>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- INTEGRATIONS -->
+      <section class="integrations" id="integrations">
+        <div class="integrations__bg" aria-hidden="true"><canvas class="integrations__canvas" data-dotfield></canvas></div>
+        <div class="container integrations__inner">
+          <div class="section-head section-head--center section-head--dark">
+            <p class="eyebrow eyebrow--dark"><span class="eyebrow__dot"></span> Integrations</p>
+            <h2 class="h2" data-reveal>One app at the centre of a connected ecosystem.</h2>
+            <p class="section-head__sub" data-reveal>Petzo plugs into the systems behind your pet’s care, so information flows to where it’s needed — automatically, securely and in real time.</p>
+          </div>
+
+          <!-- Hub -->
+          <div class="hub" data-hub>
+            <svg class="hub__lines" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <defs>
+                <linearGradient id="beam" x1="0" x2="1">
+                  <stop offset="0" stop-color="#F3A93B" stop-opacity="0" />
+                  <stop offset=".5" stop-color="#F3A93B" />
+                  <stop offset="1" stop-color="#B9A3F0" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+              <g class="hub__paths">
+                <path id="hp-vms" d="M500 280 C 380 280, 300 140, 150 140" />
+                <path id="hp-ins" d="M500 280 C 640 280, 700 120, 850 120" />
+                <path id="hp-shop" d="M500 280 C 640 280, 720 420, 860 430" />
+                <path id="hp-map" d="M500 280 C 380 280, 300 420, 140 430" />
+                <path id="hp-sos" d="M500 280 C 500 380, 500 440, 500 510" />
+              </g>
+              <g class="hub__pulses">
+                <circle r="4"><animateMotion dur="2.6s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#hp-vms" /></animateMotion></circle>
+                <circle r="4" class="alt"><animateMotion dur="2.6s" begin="1.3s" repeatCount="indefinite"><mpath href="#hp-vms" /></animateMotion></circle>
+                <circle r="3"><animateMotion dur="3.4s" repeatCount="indefinite"><mpath href="#hp-ins" /></animateMotion></circle>
+                <circle r="3"><animateMotion dur="3s" begin=".6s" repeatCount="indefinite"><mpath href="#hp-shop" /></animateMotion></circle>
+                <circle r="3"><animateMotion dur="3.8s" begin="1s" repeatCount="indefinite"><mpath href="#hp-map" /></animateMotion></circle>
+                <circle r="3"><animateMotion dur="2.8s" begin=".3s" repeatCount="indefinite"><mpath href="#hp-sos" /></animateMotion></circle>
+              </g>
+            </svg>
+            <div class="hub__core">
+              <span class="hub__core-ring"></span><span class="hub__core-ring"></span>
+              <img src="/assets/petzo-logo-white-1.png" alt="Petzo" width="120" height="36" />
+            </div>
+            <a href="#vms" class="hub__node hub__node--vms" style="--x:15%;--y:25%">
+              <span class="hub__node-ic"><svg><use href="#i-clinic" /></svg></span>
+              <span><b>Petzo VMS</b><small>Clinic management</small></span>
+              <em class="tag tag--live">Featured</em>
+            </a>
+            <div class="hub__node" style="--x:85%;--y:21.4%">
+              <span class="hub__node-ic"><svg><use href="#i-shield" /></svg></span>
+              <span><b>Pet insurance</b><small>Policies &amp; cover</small></span>
+            </div>
+            <div class="hub__node" style="--x:86%;--y:76.8%">
+              <span class="hub__node-ic"><svg><use href="#i-bag" /></svg></span>
+              <span><b>Pet shop</b><small>Food &amp; supplements</small></span>
+            </div>
+            <div class="hub__node" style="--x:14%;--y:76.8%">
+              <span class="hub__node-ic"><svg><use href="#i-map" /></svg></span>
+              <span><b>Clinic map</b><small>Partner locations</small></span>
+            </div>
+            <div class="hub__node" style="--x:50%;--y:91%">
+              <span class="hub__node-ic"><svg><use href="#i-sos" /></svg></span>
+              <span><b>SOS network</b><small>Community alerts</small></span>
+            </div>
+          </div>
+
+          <!-- VMS feature -->
+          <div class="vms" id="vms">
+            <div class="vms__head">
+              <div>
+                <p class="eyebrow eyebrow--dark"><span class="eyebrow__dot eyebrow__dot--orange"></span> Featured integration</p>
+                <h2 class="h2 vms__title" data-reveal>Petzo <span class="grad-text">VMS</span></h2>
+                <p class="vms__lede" data-reveal>A modern Veterinary Management System that runs the clinic — and talks directly to the Petzo app in your clients’ pockets. Records, appointments and therapies stay in sync on both sides, with no double entry.</p>
+                <div class="vms__ctas" data-reveal>
+                  <a href="#contact" class="btn btn--orange" data-magnetic><span>Book a VMS demo</span><svg><use href="#i-arrow" /></svg></a>
+                  <a href="https://vms.services/" target="_blank" rel="noopener" class="btn btn--glass"><span>Open VMS panel</span></a>
+                  <button class="play-btn play-btn--dark" data-video="https://petzoapp.com/wp-content/uploads/2024/12/vms_Promo-Video_Final.mp4">
+                    <span class="play-btn__icon"><svg><use href="#i-play" /></svg></span>
+                    Watch VMS film
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sync demo -->
+            <div class="sync" data-sync>
+              <div class="dash">
+                <div class="dash__bar"><span></span><span></span><span></span><em>vms.services / patients / luna</em></div>
+                <div class="dash__body">
+                  <aside class="dash__side">
+                    <div class="dash__brand"><svg><use href="#i-clinic" /></svg> VMS</div>
+                    <span class="is-on"><svg><use href="#i-chart" /></svg>Dashboard</span>
+                    <span><svg><use href="#i-users" /></svg>Patients</span>
+                    <span><svg><use href="#i-calendar" /></svg>Appointments</span>
+                    <span><svg><use href="#i-box" /></svg>Inventory</span>
+                    <span><svg><use href="#i-folder" /></svg>Records</span>
+                    <span><svg><use href="#i-chat" /></svg>Messages</span>
+                  </aside>
+                  <div class="dash__main">
+                    <div class="dash__stats">
+                      <div><small>Today’s visits</small><b data-count="18">0</b><i class="up">+12%</i></div>
+                      <div><small>Active patients</small><b data-count="1284">0</b><i class="up">+4%</i></div>
+                      <div><small>Low-stock items</small><b data-count="3">0</b><i class="warn">Reorder</i></div>
+                    </div>
+                    <div class="dash__chart">
+                      <div class="dash__chart-head"><b>Appointments this week</b><small>Mon – Sun</small></div>
+                      <div class="bars"><span style="--h:46%"></span><span style="--h:68%"></span><span style="--h:54%"></span><span style="--h:82%"></span><span style="--h:92%"></span><span style="--h:60%"></span><span style="--h:34%"></span></div>
+                    </div>
+                    <div class="dash__table">
+                      <div class="dash__row dash__row--head"><span>Patient</span><span>Owner</span><span>Procedure</span><span>Status</span></div>
+                      <div class="dash__row dash__row--hl" data-sync-row><span><i class="dot" style="--c:#F3A93B"></i>Luna</span><span>A. Kovač</span><span>Rabies booster</span><span class="st st--sync">Sent to app</span></div>
+                      <div class="dash__row"><span><i class="dot" style="--c:#623BB2"></i>Milo</span><span>S. Begić</span><span>Dental check</span><span class="st">In progress</span></div>
+                      <div class="dash__row"><span><i class="dot" style="--c:#4CB59A"></i>Kiki</span><span>L. Marić</span><span>Lab panel</span><span class="st st--done">Completed</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="sync__beam" aria-hidden="true">
+                <svg viewBox="0 0 200 40" preserveAspectRatio="none"><path d="M0 20 H200" /><path d="M0 20 H200" class="sync__beam-glow" /></svg>
+                <span class="sync__badge"><svg><use href="#i-lock" /></svg> Encrypted sync</span>
+              </div>
+
+              <div class="phone phone--sync">
+                <div class="phone__frame">
+                  <div class="phone__island"></div>
+                  <div class="screen">
+                    <div class="sb"><span>9:41</span><span class="sb__icons"><i></i><i></i><i></i></span></div>
+                    <div class="app-top"><span class="app-top__title">Health</span><span class="chip chip--orange">Luna ▾</span></div>
+                    <div class="push" data-sync-push>
+                      <span class="push__ic"><img src="/favicon.png" alt="" width="20" height="20" /></span>
+                      <span><b>Riverside Vet updated Luna’s record</b><small>Rabies booster · valid until Nov 2027</small></span>
+                    </div>
+                    <div class="tl">
+                      <div class="tl__item tl__item--new" data-sync-item><span class="tl__dot tl__dot--o"></span><b>Rabies booster</b><small>Today · Riverside Vet</small></div>
+                      <div class="tl__item"><span class="tl__dot tl__dot--p"></span><b>Blood panel · normal</b><small>02 Feb 2026</small></div>
+                      <div class="tl__item"><span class="tl__dot tl__dot--p"></span><b>Annual check-up</b><small>15 Jan 2026</small></div>
+                      <div class="tl__item"><span class="tl__dot tl__dot--g"></span><b>Deworming</b><small>04 Dec 2025</small></div>
+                    </div>
+                    <div class="therapy">
+                      <div class="therapy__ring"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.5" /><circle cx="18" cy="18" r="15.5" class="therapy__val" /></svg><b>70%</b></div>
+                      <div><b>Antibiotic course</b><small>Prescribed by Riverside Vet</small></div>
+                    </div>
+                    <div class="tabbar"><span><svg><use href="#i-paw" /></svg></span><span><svg><use href="#i-map" /></svg></span><span><svg><use href="#i-bag" /></svg></span><span class="is-on"><svg><use href="#i-heart" /></svg></span><span class="sos">SOS</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- VMS capability grid -->
+            <div class="caps">
+              <article class="cap cap--lead" data-cap>
+                <span class="cap__ic"><svg><use href="#i-folder" /></svg></span>
+                <div class="records" aria-hidden="true">
+                  <div class="records__row"><span class="records__tag records__tag--p">Vaccine</span><b>Rabies booster</b><small>14 Nov 2026</small></div>
+                  <div class="records__row"><span class="records__tag records__tag--o">Lab</span><b>Blood panel · normal</b><small>02 Feb 2026</small></div>
+                  <div class="records__row"><span class="records__tag records__tag--g">Therapy</span><b>Antibiotics · 10 days</b><small>20 Jan 2026</small></div>
+                  <div class="records__row"><span class="records__tag records__tag--p">Exam</span><b>Annual check-up</b><small>15 Jan 2026</small></div>
+                </div>
+                <h3>Detailed patient records</h3>
+                <p>Complete medical histories — exams, vaccinations, therapies and lab results — organised and instantly searchable, so vets spend time on care, not paperwork.</p>
+              </article>
+              <article class="cap" data-cap><span class="cap__ic"><svg><use href="#i-calendar" /></svg></span><h3>Appointment management</h3><p>Bookings from the Petzo app land straight in the clinic calendar.</p></article>
+              <article class="cap" data-cap><span class="cap__ic"><svg><use href="#i-chat" /></svg></span><h3>Digital communication</h3><p>Transparent, timely updates to owners — without the phone calls.</p></article>
+              <article class="cap" data-cap><span class="cap__ic"><svg><use href="#i-box" /></svg></span><h3>Inventory &amp; procurement</h3><p>Track stock levels and reorder supplies before they run out.</p></article>
+              <article class="cap" data-cap><span class="cap__ic"><svg><use href="#i-passport" /></svg></span><h3>Digital filing</h3><p>A paperless archive for every patient and every visit.</p></article>
+              <article class="cap" data-cap><span class="cap__ic"><svg><use href="#i-chart" /></svg></span><h3>Reports &amp; analytics</h3><p>Custom reports that show how your practice is really performing.</p></article>
+              <article class="cap" data-cap><span class="cap__ic"><svg><use href="#i-users" /></svg></span><h3>Multi-user &amp; multi-location</h3><p>Roles for the whole team, across every branch of your practice.</p></article>
+              <article class="cap cap--accent" data-cap><span class="cap__ic"><svg><use href="#i-sync" /></svg></span><h3>Native Petzo sync</h3><p>The two-way bridge between clinic and owner — the heart of the ecosystem.</p></article>
+            </div>
+
+            <div class="why">
+              <div class="why__col">
+                <p class="why__kicker">For pet owners</p>
+                <p class="why__text">Personalised care and a complete view of your pet’s health, wherever you are.</p>
+              </div>
+              <div class="why__plus" aria-hidden="true"><svg><use href="#i-plus" /></svg></div>
+              <div class="why__col">
+                <p class="why__kicker">For veterinarians</p>
+                <p class="why__text">Better understanding and planning of every patient’s care — with less admin.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="faq container" id="faq">
+        <div class="faq__aside">
+          <div class="faq__intro">
+            <p class="eyebrow"><span class="eyebrow__dot"></span> FAQ</p>
+            <h2 class="h2" data-reveal>Questions, answered.</h2>
+            <p class="faq__sub">Everything you need to know about Petzo and Petzo VMS. Pick a topic to narrow it down.</p>
+            <div class="faq__filters" role="group" aria-label="Filter questions by topic">
+              <button class="faq__filter" type="button" data-filter="all" aria-pressed="true">All <span data-faq-count="all"></span></button>
+              <button class="faq__filter" type="button" data-filter="app" aria-pressed="false">The app <span data-faq-count="app"></span></button>
+              <button class="faq__filter" type="button" data-filter="vets" aria-pressed="false">Vets &amp; VMS <span data-faq-count="vets"></span></button>
+              <button class="faq__filter" type="button" data-filter="help" aria-pressed="false">Support <span data-faq-count="help"></span></button>
+            </div>
+          </div>
+          <aside class="faq__help">
+            <span class="faq__help-ic"><svg><use href="#i-chat" /></svg></span>
+            <h3>Still have a question?</h3>
+            <p>Our team is happy to help — by email, or right inside the app.</p>
+            <div class="faq__help-actions">
+              <a href="#contact" class="btn btn--orange btn--sm" data-magnetic><span>Contact us</span><svg><use href="#i-arrow" /></svg></a>
+              <a href="mailto:info@petzoapp.com" class="faq__help-mail">info@petzoapp.com</a>
+            </div>
+            <a href="#vms" class="faq__help-foot"><span>Running a clinic?</span> See Petzo VMS <svg><use href="#i-arrow" /></svg></a>
+          </aside>
+        </div>
+        <div class="faq__list">
+          <details class="qa" data-cat="app" open>
+            <summary><span class="qa__num">01</span><span class="qa__q">What is Petzo?</span><span class="qa__ic" aria-hidden="true"></span></summary>
+            <div class="qa__a"><p>Petzo is a digital platform for pet owners. Track your pets’ health data, book vet appointments and much more — all in one place.</p></div>
+          </details>
+          <details class="qa" data-cat="app">
+            <summary><span class="qa__num">02</span><span class="qa__q">Is the app free?</span><span class="qa__ic" aria-hidden="true"></span></summary>
+            <div class="qa__a"><p>The core features of Petzo are completely free. A premium plan adds advanced features for owners who want more.</p></div>
+          </details>
+          <details class="qa" data-cat="app">
+            <summary><span class="qa__num">03</span><span class="qa__q">What is the digital pet passport?</span><span class="qa__ic" aria-hidden="true"></span></summary>
+            <div class="qa__a"><p>It’s the central place for everything about your pet — vaccinations, exams, therapies and other important health information, ready to share when you need it.</p></div>
+          </details>
+          <details class="qa" data-cat="app">
+            <summary><span class="qa__num">04</span><span class="qa__q">How do I book a vet appointment?</span><span class="qa__ic" aria-hidden="true"></span></summary>
+            <div class="qa__a"><p>In the app, choose a clinic from our network, check the available slots and book in just a few taps. You’ll get a reminder before the visit.</p></div>
+          </details>
+          <details class="qa" data-cat="app">
+            <summary><span class="qa__num">05</span><span class="qa__q">Can I use the app for more than one pet?</span><span class="qa__ic" aria-hidden="true"></span></summary>
+            <div class="qa__a"><p>Yes. Create a profile for every pet you have and keep their complete records in one place — switching between them takes a single tap.</p></div>
+          </details>
+          <details class="qa" data-cat="vets">
+            <summary><span class="qa__num">06</span><span class="qa__q">What if my vet isn’t on Petzo yet?</span><span class="qa__ic" aria-hidden="true"></span></summary>
+            <div class="qa__a"><p>Your vet can help you create a profile and activate their clinic through Petzo VMS. You can also suggest a clinic to us and our team will do its best to bring them into the network.</p></div>
+          </details>
+          <details class="qa" data-cat="vets">
+            <summary><span class="qa__num">07</span><span class="qa__q">Can my clinic use Petzo VMS?</span><span class="qa__ic" aria-hidden="true"></span></summary>
+            <div class="qa__a"><p>Yes. Petzo VMS is built for veterinary practices, with support for multiple users and locations. Book a demo and our team will walk you through it.</p></div>
+          </details>
+          <details class="qa" data-cat="help">
+            <summary><span class="qa__num">08</span><span class="qa__q">Is my data safe?</span><span class="qa__ic" aria-hidden="true"></span></summary>
+            <div class="qa__a"><p>Absolutely. Your privacy and data security are our priority, and we use advanced protection methods to keep all data safe.</p></div>
+          </details>
+          <details class="qa" data-cat="help">
+            <summary><span class="qa__num">09</span><span class="qa__q">How do I contact support?</span><span class="qa__ic" aria-hidden="true"></span></summary>
+            <div class="qa__a"><p>Email us or use “Contact support” inside the app. For technical issues, leave your phone number in the contact form and the Petzo support team will call you back as soon as possible.</p></div>
+          </details>
+        </div>
+      </section>
+
+      <!-- FINAL CTA -->
+      <section class="cta container" id="download">
+        <div class="cta__card" data-cta>
+          <canvas class="cta__canvas" data-cta-canvas aria-hidden="true"></canvas>
+          <div class="cta__content">
+            <svg class="cta__paw"><use href="#i-paw" /></svg>
+            <h2 class="cta__title" data-reveal>Start your pet’s journey to a healthier, happier life.</h2>
+            <p class="cta__sub" data-reveal>Free on iOS and Android. Set up in a minute.</p>
+            <div class="hero__ctas cta__btns" data-reveal>
+              <a class="store store--light" href="https://apps.apple.com/hr/app/petzo-ultimate-pet-care/id6738798585" target="_blank" rel="noopener" data-magnetic>
+                <svg><use href="#i-apple" /></svg><span><small>Download on the</small>App Store</span>
+              </a>
+              <a class="store store--light" href="https://play.google.com/store/apps/details?id=com.petzo.venturion" target="_blank" rel="noopener" data-magnetic>
+                <svg><use href="#i-play-store" /></svg><span><small>Get it on</small>Google Play</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section class="contact container" id="contact">
+        <div class="contact__copy">
+          <p class="eyebrow"><span class="eyebrow__dot"></span> Contact</p>
+          <h2 class="h2" data-reveal>Let’s talk.</h2>
+          <p>Questions about the app, or want to bring Petzo VMS to your clinic? Send us a message and we’ll get back to you.</p>
+          <div class="contact__meta">
+            <a href="mailto:info@petzoapp.com"><svg><use href="#i-chat" /></svg> info@petzoapp.com</a>
+          </div>
+          <p class="contact__note">Need technical support? Leave your phone number in the form and the Petzo support team will call you back.</p>
+        </div>
+        <form class="form" data-form novalidate>
+          <fieldset class="form__seg">
+            <legend>I have a question about</legend>
+            <label><input type="radio" name="product" value="app" checked /><span>Petzo app</span></label>
+            <label><input type="radio" name="product" value="vms" /><span>Petzo VMS</span></label>
+          </fieldset>
+          <label class="field"><input name="name" required placeholder=" " autocomplete="name" /><span>Full name *</span></label>
+          <label class="field"><input name="email" type="email" required placeholder=" " autocomplete="email" /><span>Email *</span></label>
+          <label class="field"><input name="phone" type="tel" placeholder=" " autocomplete="tel" /><span>Phone number</span></label>
+          <label class="field field--area"><textarea name="message" rows="4" required placeholder=" "></textarea><span>Message *</span></label>
+          <button class="btn btn--primary btn--block" type="submit"><span>Send message</span><svg><use href="#i-arrow" /></svg></button>
+          <p class="form__status" data-form-status role="status"></p>
+        </form>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer__top">
+          <div class="footer__brand">
+            <span class="logo-mark logo-mark--lg" role="img" aria-label="petzo"></span>
+            <p>Everything your pet needs, in one place.</p>
+          </div>
+          <div class="footer__cols">
+            <div><b>Product</b><a href="#features">Features</a><a href="#how">How it works</a><a href="#faq">FAQ</a></div>
+            <div><b>For clinics</b><a href="#vms">Petzo VMS</a><a href="https://vms.services/" target="_blank" rel="noopener">VMS panel</a><a href="#contact">Book a demo</a></div>
+            <div><b>Company</b><a href="mailto:info@petzoapp.com">info@petzoapp.com</a><a href="https://petzoapp.com/en/politika-privatnosti/" target="_blank" rel="noopener">Privacy policy</a><a href="https://venturion.solutions/" target="_blank" rel="noopener">Venturion</a></div>
+          </div>
+        </div>
+        <div class="footer__word" aria-hidden="true">petzo</div>
+        <div class="footer__bottom">
+          <span>© <span data-year>2026</span> Venturion. All rights reserved.</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Video modal -->
+    <div class="modal" data-modal aria-hidden="true">
+      <div class="modal__backdrop" data-modal-close></div>
+      <div class="modal__box" role="dialog" aria-modal="true" aria-label="Video">
+        <button class="modal__close" data-modal-close aria-label="Close video"><svg><use href="#i-plus" /></svg></button>
+        <video data-modal-video controls playsinline preload="none"></video>
+      </div>
+    </div>
+
+    <!-- Welcome popup -->
+    <div class="welcome" data-welcome aria-hidden="true">
+      <div class="welcome__backdrop" data-welcome-close></div>
+      <div class="welcome__card" role="dialog" aria-modal="true" aria-label="Coming soon to Sweden">
+        <button class="modal__close" data-welcome-close aria-label="Close popup"><svg><use href="#i-plus" /></svg></button>
+        <div class="welcome__flag" aria-hidden="true">
+          <svg viewBox="0 0 64 64" width="64" height="64">
+            <clipPath id="flag-circle"><circle cx="32" cy="32" r="32" /></clipPath>
+            <g clip-path="url(#flag-circle)">
+              <rect width="64" height="64" fill="#006AA7" />
+              <rect x="26" y="0" width="12" height="64" fill="#FECC00" />
+              <rect x="0" y="26" width="64" height="12" fill="#FECC00" />
+            </g>
+          </svg>
+        </div>
+        <p class="eyebrow eyebrow--dark welcome__eyebrow"><span class="eyebrow__dot"></span> New market</p>
+        <h2 class="welcome__title">Coming soon to <span class="grad-text">Sweden</span></h2>
+        <p class="welcome__sub">Petzo is expanding to Sweden — bringing connected pet care, vet booking and digital health records to pet owners across the country.</p>
+        <button class="btn btn--orange welcome__cta" data-welcome-close data-welcome-explore><span>Explore Petzo</span><svg><use href="#i-arrow" /></svg></button>
+        <svg class="welcome__paw" aria-hidden="true"><use href="#i-paw" /></svg>
+      </div>
+    </div>
+
+    <div class="cursor" aria-hidden="true"><span></span></div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
