@@ -965,7 +965,7 @@ svg { width: 1em; height: 1em; flex: none; }
 }
 .welcome.is-open .welcome__card { transform: none; opacity: 1; }
 .welcome__flag { margin: 0 auto 20px; width: 64px; height: 64px; border-radius: 50%; overflow: hidden; box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.5); }
-.welcome__flag svg { display: block; }
+.welcome__flag svg { display: block; width: 100%; height: 100%; }
 .welcome__eyebrow { margin: 0 auto 16px; }
 .welcome__title { font-family: var(--font-display); font-weight: 700; font-size: clamp(26px, 4vw, 32px); line-height: 1.2; margin: 0 0 12px; }
 .welcome__sub { color: #c4b8e0; font-size: 15px; line-height: 1.65; margin: 0 0 28px; max-width: 380px; margin-inline: auto; }
@@ -976,7 +976,7 @@ svg { width: 1em; height: 1em; flex: none; }
   .welcome__title { font-size: 24px; }
   .welcome__sub { font-size: 14px; }
   .welcome__flag { width: 52px; height: 52px; }
-  .welcome__flag svg { width: 52px; height: 52px; }
+  .welcome__flag svg { width: 100%; height: 100%; }
 }
 
 /* ---------- Cursor ---------- */
